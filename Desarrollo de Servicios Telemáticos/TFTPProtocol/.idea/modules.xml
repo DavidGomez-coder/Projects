@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BasicClientsAndServers/BasicClientsAndServers.iml" filepath="$PROJECT_DIR$/BasicClientsAndServers/BasicClientsAndServers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TFTPProtocol.iml" filepath="$PROJECT_DIR$/TFTPProtocol.iml" />
+    </modules>
+  </component>
+</project>

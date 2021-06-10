@@ -1,0 +1,8 @@
+  Fichero: ejemplo.txt
+  Tamaño: 12        	Bloques: 8          Bloque E/S: 4096   fichero regular
+Dispositivo: 801h/2049d	Nodo-i: 941130      Enlaces: 1
+Acceso: (0644/-rw-r--r--)  Uid: ( 1000/ usuario)   Gid: ( 1000/ usuario)
+Acceso: 2020-03-07 18:59:28.334184843 +0100
+Modificación: 2020-03-07 18:59:24.458229394 +0100
+      Cambio: 2020-03-07 18:59:24.458229394 +0100
+    Creación: -

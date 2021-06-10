@@ -1,0 +1,3 @@
+#Juego de robocode
+#El robot R2D2, dado un problema (mapa, número de filas, columnas y obstáculos), resuelve un "laberinto" 
+#utilizando la búsqueda en Amplitud

@@ -1,0 +1,34 @@
+%%
+
+%%
+
+[aeiou][aeiou]+|[a-z]*[aeiou][aeiou]+|[a-z]*[aeiou][aeiou][a-z]*[aeiou] {
+    return new Yytoken(Yytoken.DOBLE_Y_TERMINA, yytext().length());
+}
+
+
+[a-z]*[aeiou][aeiou][bcdfghjklmnñpqrstvwxyz] {
+    return new Yytoken(Yytoken.DOBLE_VOCAL, yytext().length());
+}
+
+
+[aeiou]|[a-z]*[bcdfghjklmnñpqrstvwxyz][aeiou] {
+    return new Yytoken(Yytoken.TERMINA_VOCAL, yytext().length());
+}
+
+[a-z]* {
+    return new Yytoken(Yytoken.OTROS, yytext().length());
+}
+
+
+\+ {
+    return new Yytoken(Yytoken.ESPACIO, "0");
+    }
+
+(\t|\b|\n|\r|\r\n) {
+    return new Yytoken(Yytoken.ESPACIO, "0");
+    }
+
+. {
+    
+}

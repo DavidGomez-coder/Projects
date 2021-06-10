@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Examenes/BinPacket/BinPacket.iml" filepath="$PROJECT_DIR$/Examenes/BinPacket/BinPacket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataStructures2020/DataStructures2020.iml" filepath="$PROJECT_DIR$/DataStructures2020/DataStructures2020.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FEBRERO-2015/FEBRERO-2015.iml" filepath="$PROJECT_DIR$/FEBRERO-2015/FEBRERO-2015.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FEBRERO-2017/FEBRERO-2017.iml" filepath="$PROJECT_DIR$/FEBRERO-2017/FEBRERO-2017.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FEBRERO-2018/FEBRERO-2018.iml" filepath="$PROJECT_DIR$/FEBRERO-2018/FEBRERO-2018.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Java_EstructuraDeDatos.iml" filepath="$PROJECT_DIR$/Java_EstructuraDeDatos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PRACTICAS/PRACTICAS.iml" filepath="$PROJECT_DIR$/PRACTICAS/PRACTICAS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SEPTIEMBRE-2018/SEPTIEMBRE-2018.iml" filepath="$PROJECT_DIR$/SEPTIEMBRE-2018/SEPTIEMBRE-2018.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SEPTIEMBRE-2020/SEPTIEMBRE-2020.iml" filepath="$PROJECT_DIR$/SEPTIEMBRE-2020/SEPTIEMBRE-2020.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PRACTICAS/pr6/pr6.iml" filepath="$PROJECT_DIR$/PRACTICAS/pr6/pr6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PRACTICAS/pr7/pr7.iml" filepath="$PROJECT_DIR$/PRACTICAS/pr7/pr7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PRACTICAS/pr8/pr8.iml" filepath="$PROJECT_DIR$/PRACTICAS/pr8/pr8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PRACTICAS/pr9/pr9.iml" filepath="$PROJECT_DIR$/PRACTICAS/pr9/pr9.iml" />
+    </modules>
+  </component>
+</project>

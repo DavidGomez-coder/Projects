@@ -1,0 +1,27 @@
+TFTP (Trivial File Transfer Protocol). Es un protocolo de transferencia de ficheros asociado al puerto 69 y basado en UDP que no proporciona ninguna seguridad. Por tanto en la mayoría de sistemas es obligatorio que este servicio esté desactivado; su uso principal es el arranque de estaciones diskless o de routers a través de la red, ya que la simpleza del protocolo permite implementarlo en un chip, y sólo en ese caso se ofrece el servicio.
+
+Si es este el caso, los ficheros que deseemos que sean públicos se han de situar en un determinado directorio (dependiendo del clon de Unix, /tftpboot/, /etc/tftpboot/, /usr/local/boot/...) o utilizar otros nombres de directorio como argumentos del demonio en /etc/inetd.conf, algo no recomendable.
+
+    Utiliza UDP (en el puerto 69) como protocolo de transporte (a diferencia de FTPque utiliza el puerto 21 TCP).
+    No puede listar el contenido de los directorios.
+    No existen mecanismos de autenticación o cifrado.
+    Se utiliza para leer o escribir archivos de un servidor remoto.
+    Soporta tres modos diferentes de transferencia, "netascii", "octet" y "mail", de los que los dos primeros corresponden a los modos "ascii" e "imagen" (binario) del protocolo FTP.
+
+    Ya que TFTP utiliza UDP, no hay una definición formal de sesión, cliente y servidor, aunque se considera servidor a aquel que abre el puerto 69 en modo UDP, y cliente a quien se conecta. Sin embargo, cada archivo transferido vía TFTP constituye un intercambio independiente de paquetes, y existe una relación cliente-servidor informal entre la máquina que inicia la comunicación y la que responde.
+
+        La máquina A, que inicia la comunicación, envía un paquete RRQ (read request/petición de lectura) o WRQ (write request/petición de escritura) a la máquina B, conteniendo el nombre del archivo y el modo de transferencia.
+        B responde con un paquete ACK (acknowledgement/confirmación), que también sirve para informar a A del puerto de la máquina B al que tendrá que enviar los paquetes restantes.
+        La máquina origen envía paquetes de datos numerados a la máquina destino, todos excepto el último conteniendo 512 bytes de datos. La máquina destino responde con paquetes ACK numerados para todos los paquetes de datos.
+        El paquete de datos final debe contener menos de 512 bytes de datos para indicar que es el último. Si el tamaño del archivo transferido es un múltiplo exacto de 512 bytes, el origen envía un paquete final que contiene 0 bytes de datos.
+
+
+Sólo existen cinco tipos de paquetes:
+
+Código de Operación Operación
+
+    Petición de lectura (RRQ)
+    Petición de escritura (WRQ)
+    Datos (DATA)
+    Reconocimiento (ACK)
+    Error (ERROR)

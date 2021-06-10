@@ -1,0 +1,8 @@
+ProyectoShellv1.c (comando cd)
+ProyectoShellv2.c (comando logout)
+ProyectoShellv2.1.c (comando logout + comentarios)
+ProyectoShellv3.c (manejador SIGCHLD)
+ProyectoShellv4.c (falta por implementar fg y las restricciones de pasar a suspendido si se recibe la señal SIGSTOP o un proceso en BG lee terminal)
+ProyectoShellv5.c (falta implementación fg y restriccion proceso en segundo plano que lee de terminal)
+ProyectoShellv6.c (Shell básica completa)
+====================================================================================================================================================

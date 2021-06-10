@@ -1,0 +1,34 @@
+%%
+
+%%
+
+[AEIOUaeiou][AEIOUaeiou]+|[a-zA-Z]*[AEIOUaeiou][AEIOUaeiou]+|[a-zA-Z]*[AEIOUaeiou][AEIOUaeiou][a-zA-Z]*[AEIOUaeiou] {
+    return new Yytoken(Yytoken.DOBLE_Y_TERMINA, yytext().length());
+}
+
+
+[a-z]*[AEIOUaeiou][AEIOUaeiou][BCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz] {
+    return new Yytoken(Yytoken.DOBLE_VOCAL, yytext().length());
+}
+
+
+[AEIOUaeiou]|[a-zA-Z]*[BCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz][AEIOUaeiou] {
+    return new Yytoken(Yytoken.TERMINA_VOCAL, yytext().length());
+}
+
+[a-zA-Z]* {
+    return new Yytoken(Yytoken.OTROS, yytext().length());
+}
+
+
+\+ {
+    return new Yytoken(Yytoken.ESPACIO, "0");
+    }
+
+(\t|\b|\n|\r|\r\n) {
+    return new Yytoken(Yytoken.ESPACIO, "0");
+    }
+
+. {
+    
+}

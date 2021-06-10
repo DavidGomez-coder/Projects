@@ -1,0 +1,186 @@
+/* 
+    Created on : 21-dic-2020, 17:21:43
+    Author     : dgpv2
+*/
+@charset "utf-8";
+/* CSS Document */
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+/* IMAGEN DE FONDO*/
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #333333; /*en caso de error en la imagen, utilizamos este fondo*/
+    background-image: url(../Images/background.png);
+}
+
+/* CUADRADO PRINCIPAL DE LOS FORMULARIOS */
+.login-form {
+    width: 400px;
+    margin: 16px auto;
+    font-size: 16px;
+    background: #006699;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+/* CABECERA DE LOS FORMULARIOS */
+.login-head {
+    margin-top: 0;
+    margin-bottom: 0;
+    background: #006666;
+    padding: 20px;
+    font-size: 1.4em;
+    font-weight: normal;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 10px;
+    border-color: #00cccc;
+}
+
+/* ETIQUETA DE TEXTO */
+.login-head-text {
+    box-sizing:border-box;
+    display: block;
+    width: 100%;
+    border-width: 2px;
+    font-weight: normal;
+    border-style: solid;
+    border-color: #006666;
+    text-align: center;
+    background: #006666;
+    border-radius: 10px;
+    color: #fff;
+}
+
+/* PARA INTRODUCIR TEXTO */
+.login-text {
+    box-sizing: border-box;
+    background-color: #f0f0ff;
+    display: block;
+    width: 100%;
+    border-width: 2px;
+    border-style: solid;
+    padding: 16px;
+    outline: 0;
+    font-family: inherit;
+    font-size: 0.95em;
+    border-radius: 10px;
+}
+
+/* FORMATO PARA LOS CUADROS DE TEXTO*/
+input[class="login-text"]:invalid:required{
+    border: 2px solid red;
+}
+
+input[class="login-text"]:hover:required{
+    background-color: #e1e1e1;
+}
+
+input[class="login-text"]:hover {
+    background-color: #e1e1e1;
+}
+
+input[class="login-text"]:valid:required{
+    border: 2px solid #33ff66;
+}
+
+input[class="login-text"]:hover:valid:required{
+    border: 2px solid #33ff66;
+    background-color: #e1e1e1;
+}
+
+input [class="login-text"]:valid {
+    
+}
+
+
+/* FORMATO PARA LOS BOTONES */
+.login-button {
+    width: 100%;
+    height: 30px;
+    background: #009999;
+    border-color: #009999;
+    border-style: solid;
+    color: #fff;
+    border-radius: 10px;
+    border-bottom-color: #33ccff;
+}
+
+input[class="login-button"]:hover{
+    background-color: #006666;
+}
+
+/* FORMATO PARA LA FECHA DEL FORMULARIO DE REGISTRO*/
+.login-date {
+    width: 100%;
+    border-radius: 10px;
+    border-width: 3px;
+    background: #ccffff;
+    height: 45px;
+    font-style: normal;
+    font-size: 20px;
+    text-align: center;
+    font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+}
+
+
+/* AUTOR EN PIE DE PÁGINA */
+.autor {
+    width: 25%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    color: white;
+    position:relative;
+    top:100px;
+    font-weight: bold;
+ 
+}
+
+/* MENÚ LATERAL */
+nav {
+    position: fixed;
+    width: 10%;
+    height: 100%;
+    background-color: #1b6d6d;
+    opacity: 90%;
+}
+
+/* ENLACES */
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #ff0033;
+}
+
+a:visited {
+    color: grey;
+}
+
+a:hover {
+    color: blueviolet;
+}
+
+a:active {
+    color: #009933;
+}
+
+/* PARA LAS TABLAS */
+table {
+    width: 100%;
+}
+
+th, td {
+    width: 25%;
+    align-content: center;
+}
