@@ -1,7 +1,7 @@
 # Proyects
 ## Lista de proyectos creados🚀
 
-### Estrucutras de Datos ➕
+### Estrucutras de Datos ☠️
   - Implementación de distintas estructuras de datos junto a unas demos para probar su funcionamiento.
   - Exámenes de años anteriores
   - 
@@ -12,7 +12,7 @@
     - Ejercicios punteros 
   
 ### Robocode 🤖
-    - Algoritmo de búsqueda de amplitud en el juego robocode (también se incluye un propio robot R2D2)
+    Algoritmo de búsqueda de amplitud en el juego robocode (también se incluye un propio robot R2D2)
     
 ### Desarrollo de Servicios Telemáticos 🖥️
   - Servidor y Cliente TFTP (Sockets)
