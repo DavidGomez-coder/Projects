@@ -2,7 +2,7 @@
 
 ## Lista de proyectos creados🚀
 
-### Estrucutras de Datos ☠️
+### Estructuras de Datos ☠️
   - Implementación de distintas estructuras de datos junto a unas demos para probar su funcionamiento.
   - Exámenes de años anteriores
 
