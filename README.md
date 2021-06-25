@@ -20,8 +20,11 @@
   - Cliente SMTP (usar FakeSMTPServer para comprobar su uso)
   - Cliente Multichat utilizando paquete NIO de java
   - Práctica de programacion web utilizando servlets
+
+### JavaScript 💻
+  - LinkedList (en proceso)
    
-### Procesadores de Lenguajes 💻
+### Procesadores de Lenguajes ☠️
   Estos son ejemplos y exámenes de la asignatura Procesadores de Lenguajes
   1. Prácticas
     - Prácticas realizadas de JFlex y Cup durante el curso
