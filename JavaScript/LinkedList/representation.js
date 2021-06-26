@@ -19,11 +19,19 @@ document.getElementById("preppendData").onclick = function(){
 }
 
 document.getElementById("removeButton").onclick = function(){
-    list.remove(document.getElementById("idToRemove").value);
-    console.clear();
-    console.log(list);
-    drawLinkedList();
+    if (list.size()==0){
+        msg("La lista está vacía");
+        setInterval(clearMsg, 2000);
+    }else{
+        list.remove(document.getElementById("idToRemove").value);
+        console.clear();
+        console.log(list);
+        drawLinkedList();
+    }
+   
 }
+
+
 
 /* DRAW LINKED LIST */
 function drawLinkedList (){
@@ -34,6 +42,7 @@ function drawLinkedList (){
         let data = list.get(i);
         drawNode(data)
     }
+    drawNullNode();
 }
 
 /* CANVAS */
@@ -49,16 +58,37 @@ function drawNode (data){
     ctx.fillStyle = "white";
     ctx.fillText(data, x, y);
     ctx.closePath();
-    x+=30;
+    x+=20;
     drawArrow();
 
     //act positions
-    x+=60;
-    if (x>=380){
+    x+=40;
+    if (x>=480){
         y+=60;
         x = 20;
     }
     
+}
+
+function drawNullNode(){
+    ctx.beginPath();
+    ctx.arc(x, y, 20, 0, Math.PI*2, false);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.mozTextStyle = "20pt Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("NULL", x, y);
+    ctx.closePath();
+    x+=20;
+    drawArrow();
+
+    //act positions
+    x+=40;
+    if (x>=480){
+        y+=60;
+        x = 20;
+    }
 }
 
 function drawArrow(){
@@ -69,7 +99,14 @@ function drawArrow(){
     ctx.closePath();
 }
 
+/* MESSAGES*/
+function clearMsg (){
+    document.getElementById("message").innerText = "";
+}
 
+function msg (str){
+    document.getElementById("message").innerText = str;
+}
 
 /***
  * IMPORTANT: This is use to initialize at 100ms after the page is loaded the linked list
@@ -78,6 +115,7 @@ function drawArrow(){
     list = new LinkedList();
     x = 20;
     y = 40;
+    drawNullNode();
 }
 
 setTimeout(loadList, 100);

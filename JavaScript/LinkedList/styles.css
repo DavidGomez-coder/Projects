@@ -6,6 +6,7 @@
 canvas {
     background: #eee;
     display: block;
-    margin: 0 auto;
+    margin: 0px auto;
+    padding: 0.2em;
     border: 1px solid black;
 }
