@@ -18,3 +18,27 @@ document.getElementById("dataStructuresBut").onclick = function(){
     }
 }
 
+/**
+ * This function is used to change de main photo at the center of index.xhtml
+ */
+function changePhoto(){
+    var jsLogo = document.getElementById("jsLogo");
+    var csLogo = document.getElementById("cssLogo");
+    if (jsLogo.style.visibility == "visible" && csLogo.style.visibility == "hidden"){
+       
+        jsLogo.style.visibility = "hidden";
+        jsLogo.style.display = "none";
+        csLogo.style.visibility = "visible"
+        csLogo.style.display = "block";
+        
+    }else{
+        csLogo.style.visibility = "hidden"
+        csLogo.style.display = "none";
+        jsLogo.style.visibility = "visible";
+        jsLogo.style.display = "block";
+    }
+}
+
+setInterval(changePhoto, 10000);
+
+
