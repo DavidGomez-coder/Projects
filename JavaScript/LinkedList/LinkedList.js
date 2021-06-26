@@ -66,7 +66,7 @@ class LinkedList {
             aux = aux.next;
         }
 
-        return aux;
+        return aux.data;
     }
 
     /**
@@ -112,7 +112,8 @@ class LinkedList {
             }
         }else{
             let prev = this.get(i-1);
-            prev.next = prev.next.next;
+            let prevSig = prev.next;
+            prev.next = (prev.next).next;
 
             if (i==(this.listSize-1)){
                 this.last = prev;
