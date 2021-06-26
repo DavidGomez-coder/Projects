@@ -21,8 +21,8 @@
   - Cliente Multichat utilizando paquete NIO de java
   - Práctica de programacion web utilizando servlets
 
-### JavaScript 💻
-  - LinkedList (en proceso)
+### HTML, CSS y JavaScript 💻
+  - DataStructuresProyect (en proceso)
    
 ### Procesadores de Lenguajes ☠️
   Estos son ejemplos y exámenes de la asignatura Procesadores de Lenguajes
