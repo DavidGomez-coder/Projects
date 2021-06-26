@@ -51,6 +51,8 @@ function drawNode (data){
     ctx.closePath();
     x+=30;
     drawArrow();
+
+    //act positions
     x+=60;
     if (x>=380){
         y+=60;
