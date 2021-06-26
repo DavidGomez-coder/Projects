@@ -1,0 +1,56 @@
+.enlace, enlaceEDA, li, ul{
+    list-style: none;
+   padding: 0.375rem 0.75rem;
+   line-height: 1;
+   font-weight: 400;  
+}
+
+.visible {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: #0d6efd; 
+}
+
+
+.button {
+display: inline-block;
+   background-color: #0d6efd;
+   border-color: #0d6efd;
+   color: white;
+   border: none;
+   padding: 0.375rem 0.75rem;
+   font-size: 1rem; 
+   border-radius: 0.25rem;
+   text-align: center;
+   text-decoration: none;
+   vertical-align: middle;
+   line-height: 1.5;
+   font-weight: 400;
+   transition: color .15s
+               ease-in-out,background-color 
+               .15s ease-in-out,border-color 
+               .15s ease-in-out,box-shadow 
+               .15s ease-in-out;;
+}
+
+.button:hover{
+    background-color: #2904cc;
+}
+
+nav {
+    border-right: 1px dashed gray;
+    border-bottom: 1px dashed gray;
+    border-bottom-right-radius: 0.6em;
+    padding: 1em;
+    width: 21%;
+    background-color: gainsboro;
+}
+
+
+.title {
+    text-align: center;
+    
+}
