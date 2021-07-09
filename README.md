@@ -29,7 +29,7 @@
     - Para correr este proyecto, situandonos en el directorio principal, ejecutar
       `npm run start`
     - Para ejecutar este proyecto y acceder desde cualquier red, utilizar localTunnel (generador de un enlace permanente aleatorio hasta que se cierre el servidor
-      `$ nmp install -g localtunnel`
+      `$ nmp install -g localtunnel` <br>
       `$ lt --port "numPuerto`
    
 ### Procesadores de Lenguajes ☠️
