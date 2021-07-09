@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Upload Test</title>
+    </head>
+
+    <body>
+        <form action="http://192.168.1.134:3000/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Subir">
+        </form>
+
+        <form action="http://192.168.1.134:3000/createNewDir" method="GET" enctype="multipart/form-data">
+            <input type="text" id="dirName" name="dirName">
+            <input type="submit" value="Nuevo directorio" id="newDirButton">
+        </form> 
+
+    </body>
+
+    <script type="module" src="../scripts/dirName.js"></script>
+</html>
