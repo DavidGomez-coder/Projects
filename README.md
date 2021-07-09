@@ -25,13 +25,13 @@
   - DataStructuresProyect (en proceso)
 
 ### File Management
-  - Este proyecto trata sobre la creación de un "google drive" utilizando nodejs, bootstrap, javascript y express, para su utilización local.
+  - Este proyecto trata sobre la creación de un "google drive" utilizando nodejs, bootstrap, javascript y express, para su utilización local o remoto.
     - Para correr este proyecto, situandonos en el directorio principal, ejecutar
       `npm run start`
-    - Para ejecutar este proyecto y acceder desde cualquier red, utilizar localTunnel (generador de un enlace permanente aleatorio hasta que se cierre el servidor
+    - Para ejecutar este proyecto y acceder desde cualquier red, utilizar localTunnel (generador de un enlace permanente aleatorio hasta que se cierre el servidor <br>
       `$ nmp install -g localtunnel` <br>
       `$ lt --port "numPuerto`
-   
+   - La contraseña y el nombre de usuario deben de cambiarse desde el propio código (por seguridad, para evitar intrusos)
 ### Procesadores de Lenguajes ☠️
   Estos son ejemplos y exámenes de la asignatura Procesadores de Lenguajes
   1. Prácticas
