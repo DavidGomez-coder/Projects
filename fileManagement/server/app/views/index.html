@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Main Page</title>
+    </head>
+
+    <body>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Subir">
+        </form>
+
+        <form action="/createNewDir" method="GET" enctype="multipart/form-data">
+            <input type="text" id="dirName" name="dirName">
+            <input type="submit" value="Nuevo directorio" id="newDirButton">
+        </form> 
+
+    </body>
+
+    
+</html>
