@@ -10,10 +10,10 @@ const path    = require('path');
 
 
 //statics elements
-app.use('/media', express.static(__dirname + "/public/media"));
-app.use('/images', express.static(__dirname + "/public/images"));
-app.use('/styles',express.static(__dirname + '/public/styles'));
-app.use('/scripts',express.static(__dirname + '/public/scripts'));
+app.use('/media', express.static(__dirname + "/app/views/public/media"));
+app.use('/images', express.static(__dirname + "/app/views//public/images"));
+app.use('/styles',express.static(__dirname + '/app/views//public/styles'));
+app.use('/scripts',express.static(__dirname + '/app/views//public/scripts'));
 
 
 //starting server
