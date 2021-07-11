@@ -1,4 +1,8 @@
 const path = require('path');
+const fs = require('fs');
+const dirTree = require('directory-tree');
+
+const FILES_PATH = path.join(__dirname, "..","..","..","files");
 
 module.exports = app => {
     /**
@@ -10,10 +14,16 @@ module.exports = app => {
         }
     
         if (-1770856881 == hashCode(req.query.passParam)){
-            res.render("index",{});
+            var count = 0;
+            const tree = dirTree(FILES_PATH);
+            console.log(tree);
+            
+            res.render("index",{tree});
            console.log("Sesión iniciada correctamente");
          }else{
             console.log("Datos no correctos");
         }
     });
 }
+
+

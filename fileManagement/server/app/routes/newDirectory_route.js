@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 
-const FILES_PATH = path.join(__dirname, "..","..","..","files");
 
 /**
 * It's used to create a new directory on server
