@@ -10,7 +10,7 @@ module.exports = app => {
         }
     
         if (-1770856881 == hashCode(req.query.passParam)){
-            res.sendFile(path.join(__dirname,"../views/index.html"));
+            res.render("index",{});
            console.log("Sesión iniciada correctamente");
          }else{
             console.log("Datos no correctos");

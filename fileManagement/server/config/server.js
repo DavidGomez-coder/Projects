@@ -6,10 +6,12 @@ const { urlencoded } = require('body-parser');
 const app = express();
 
 
-//settings
+//settings port
 app.set('port', process.env.PORT || 3000);
-app.set('view engine', 'ejs');
 
+//setting views
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, "..", "app", "views", "src"));
 
 //middleware
 
