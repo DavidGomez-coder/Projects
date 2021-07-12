@@ -16,8 +16,7 @@ module.exports = app => {
         if (-1770856881 == hashCode(req.query.passParam)){
             var count = 0;
             const tree = dirTree(FILES_PATH);
-            console.log(tree);
-            
+            //console.log(tree);
             res.render("index",{tree});
            console.log("Sesión iniciada correctamente");
          }else{

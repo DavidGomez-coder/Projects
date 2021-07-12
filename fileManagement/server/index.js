@@ -5,6 +5,7 @@ require('./app/routes/main_route.js')(app);
 require('./app/routes/login_route.js')(app);
 require('./app/routes/upload_route.js')(app);
 require('./app/routes/newDirectory_route.js')(app);
+require('./app/routes/showDirectory_route.js')(app);
 
 const express = require('express');
 
