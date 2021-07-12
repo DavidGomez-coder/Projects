@@ -1,0 +1,8 @@
+.center {
+    background-color: #d4e4ff;
+    height: 95%;
+    width: 50%;
+    border: black dotted 0.1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}

@@ -6,7 +6,14 @@ document.getElementById("menuButton").onclick = function (){
     for (var i=0;i<nav.length;i++){
         nav[i].classList.toggle("visible");
     }
+
+    var nav = document.getElementsByClassName("directory");
+    for (var i=0; i< nav.length; i++){
+        nav[i].classList.toggle("visible");
+    }
 }
+
+
 
 
 

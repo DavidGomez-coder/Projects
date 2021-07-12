@@ -4,6 +4,7 @@ const dirTree = require('directory-tree');
 
 const FILES_PATH = path.join(__dirname, "..","..","..","files");
 
+
 module.exports = app => {
     /**
      * Redirect to main page after introduce username and password
@@ -17,10 +18,10 @@ module.exports = app => {
             var count = 0;
             const tree = dirTree(FILES_PATH);
             //console.log(tree);
-            res.render("index",{tree});
-           console.log("Sesión iniciada correctamente");
+            res.render("index",{tree,files:""});
          }else{
-            console.log("Datos no correctos");
+            res.render("login",{});
+            console.log("Fail login: " + req.query.userParam + ", " + req.query.passParam);
         }
     });
 }

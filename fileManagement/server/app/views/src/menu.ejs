@@ -1,36 +1,46 @@
 <!-- MENÚ -->
-<div class="nav">
+<div class="minav">
     <nav>
-       
+  
         <button class="button" id="menuButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
             </svg> Menú</button>
-        <li class="enlace visible"><a href="#">Inicio</a></li>
+        <br><br>
+        <li class="enlace"><a href="#">Inicio</a></li>
+
         <hr>
+        <br>
+        <scroll-container>
          <% 
             /**
              * Recursive function used to represent files
              */
             function repreTree (elem, numElem, spaces){
+                
                if (elem.type == 'directory'){
                    %>
+                   
                    <form  action="/getDirectory" method="GET" enctype="multipart/form-data">
-                        <button  class="directoryButton" type="submit" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
-                        </svg> <%= elem.name %></button>
-                        <input type="hidden" name="filePath" value="<%= elem.path %>">
+                        <li class="directory"><a><%= elem.name %></a>
+                        <button class="directoryButton" type="submit" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8zm-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5z"/>
+                        </svg></button>
+                        <input type="hidden" name="filePath" value="<%= elem.path %>"></li>
 
                     </form> 
                    <%
                    if (elem.children.length > 0){
                       for (var i = 0; i< elem.children.length; i++){
-                          repreTree(elem.children[i], elem.children[i].length, spaces++);
+                        %><ul><%  repreTree(elem.children[i], elem.children[i].length, spaces++);%></ul><%
+                        spaces--;
                       }
                    }
                }
             }   
-
-           repreTree(tree, tree.children.length,0);
-         %>               
+            repreTree(tree, tree.children.length,0);
+         %>     
+        </scroll-container>
+                 
     </nav>
+ 
 </div>
