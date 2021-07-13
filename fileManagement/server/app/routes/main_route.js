@@ -8,8 +8,8 @@ const fileUpload = require('express-fileupload');
 */
 module.exports = app => {
    
-    app.get('/', (req, res) => {
-        res.render('login',{});
+    app.get('/', async (req, res) => {
+       await res.render('login',{});
     });
 
     

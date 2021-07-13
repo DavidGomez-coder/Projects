@@ -1,8 +1,29 @@
 .center {
-    background-color: #d4e4ff;
     height: 95%;
     width: 50%;
     border: black dotted 0.1em;
-    margin-top: 1em;
+    margin-left: 0;
     margin-bottom: 1em;
+}
+
+.secondNavBar {
+    display: flex;
+    padding: 0;
+    border: black 1px dotted;
+    align-items:baseline;
+    height: 8%;;
+}
+
+.route{
+    display:flex;
+    right: 0;
+    color: royalblue;
+    font-size: 100%;
+    font-family: Arial, Helvetica, Sans-serif;
+    font-weight: bold;
+}
+
+.secondNavBarButton {
+    margin: 1em;
+    margin-bottom: 0;
 }

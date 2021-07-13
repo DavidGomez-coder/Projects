@@ -9,9 +9,10 @@ require('./app/routes/upload_route.js')(app);
 require('./app/routes/newDirectory_route.js')(app);
 require('./app/routes/showDirectory_route.js')(app);
 require('./app/routes/upDirectory_route.js')(app);
-
+require('./app/routes/reload_route.js')(app);
 
 const express = require('express');
+const router = express.Router();
 
 //statics elements
 app.use('/media', express.static(__dirname + "/app/views/public/media"));

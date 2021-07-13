@@ -3,6 +3,7 @@ const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const dirTree = require('directory-tree');
 const { nextTick } = require('process');
+const Swal = require('sweetalert2');
 
 const FILES_PATH = global.FILES_PATH;
 
@@ -13,13 +14,16 @@ module.exports = app => {
 
      app.get('/createNewDir', async (req, res)  =>  {
         let date = new Date(Date.now());
-        let newDirectory = date.getDay()+"-"+date.getMonth()+"-"+date.getHours()+"-"+date.getMinutes()+"-"+date.getSeconds();
+        let newDirectory = req.query.newName;
+        if (newDirectory == null || newDirectory==""){
+            newDirectory = date.getDay()+"-"+date.getMonth()+"-"+date.getHours()+"-"+date.getMinutes()+"-"+date.getSeconds();
+        }
         var filePath = req.query.newfilePath;
         let name = filePath + "/" + newDirectory;
         if (fs.existsSync(name)){
             console.log("Ya existe un directorio con este nombre");
         }else{
-            fs.mkdir(name, function(err){
+            fs.mkdir(name, async function(err){
                 if(err){
                     throw('Error: ' + err);
                 }
@@ -27,8 +31,9 @@ module.exports = app => {
             })
         }
 
-        const tree = dirTree(FILES_PATH);
-        const files = dirTree(filePath);
-        res.render("index", {files});
+        const files = dirTree(path.join(req.query.newfilePath));
+        await res.render("index", {files});
+
+          
     });
-}
+}   
