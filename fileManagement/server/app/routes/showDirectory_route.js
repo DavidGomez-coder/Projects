@@ -1,6 +1,6 @@
 const path = require('path');
 const dirTree = require('directory-tree');
-const FILES_PATH = path.join(__dirname, "..","..","..","files");
+const FILES_PATH = global.FILES_PATH;
 
 
 module.exports = app => {
@@ -10,6 +10,6 @@ module.exports = app => {
         var path = req.query.filePath;
         const files = dirTree(path);
         //console.log(files.children);
-        res.render("index",{tree, files});
+        res.render("index",{files});
     });
 }

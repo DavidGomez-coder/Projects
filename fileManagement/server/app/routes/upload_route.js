@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 
-const FILES_PATH = path.join(__dirname, "..","..","..","files");
+const FILES_PATH = global.FILES_PATH;
 
 /**
 * It's used to post a new file at the selected 

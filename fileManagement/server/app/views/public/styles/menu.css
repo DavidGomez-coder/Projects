@@ -1,5 +1,5 @@
-.enlace, li, ul, directory{
-    list-style: none;
+.enlace, directory{
+list-style: none;
    line-height: 1;
    font-weight: 400;  
 }

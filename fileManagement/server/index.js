@@ -1,11 +1,15 @@
 const app = require('./config/server.js');
+const path = require('path');
 
+global.FILES_PATH = path.join(__dirname, "..",".","files");
 
 require('./app/routes/main_route.js')(app);
 require('./app/routes/login_route.js')(app);
 require('./app/routes/upload_route.js')(app);
 require('./app/routes/newDirectory_route.js')(app);
 require('./app/routes/showDirectory_route.js')(app);
+require('./app/routes/upDirectory_route.js')(app);
+
 
 const express = require('express');
 

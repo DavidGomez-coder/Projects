@@ -4,7 +4,7 @@ const fileUpload = require('express-fileupload');
 const dirTree = require('directory-tree');
 const { nextTick } = require('process');
 
-const FILES_PATH = path.join(__dirname, "..","..","..","files");
+const FILES_PATH = global.FILES_PATH;
 
 /**
 * It's used to create a new directory on server
@@ -29,6 +29,6 @@ module.exports = app => {
 
         const tree = dirTree(FILES_PATH);
         const files = dirTree(filePath);
-        res.render("index", {tree, files});
+        res.render("index", {files});
     });
 }

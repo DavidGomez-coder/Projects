@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const dirTree = require('directory-tree');
 
-const FILES_PATH = path.join(__dirname, "..","..","..","files");
+const FILES_PATH = global.FILES_PATH;
 
 
 module.exports = app => {
@@ -17,8 +17,9 @@ module.exports = app => {
         if (-1770856881 == hashCode(req.query.passParam)){
             var count = 0;
             const tree = dirTree(FILES_PATH);
+            const files = tree;
             //console.log(tree);
-            res.render("index",{tree,files:""});
+            res.render("index",{files});
          }else{
             res.render("login",{});
             console.log("Fail login: " + req.query.userParam + ", " + req.query.passParam);

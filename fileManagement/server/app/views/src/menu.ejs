@@ -1,46 +1,21 @@
-<!-- MENÚ -->
-<div class="minav">
-    <nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">FileApp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+      
+      <form method="GET" action="/" enctype="multipart/form-data" class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
   
-        <button class="button" id="menuButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-            </svg> Menú</button>
-        <br><br>
-        <li class="enlace"><a href="#">Inicio</a></li>
-
-        <hr>
-        <br>
-        <scroll-container>
-         <% 
-            /**
-             * Recursive function used to represent files
-             */
-            function repreTree (elem, numElem, spaces){
-                
-               if (elem.type == 'directory'){
-                   %>
-                   
-                   <form  action="/getDirectory" method="GET" enctype="multipart/form-data">
-                        <li class="directory"><a><%= elem.name %></a>
-                        <button class="directoryButton" type="submit" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8zm-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5z"/>
-                        </svg></button>
-                        <input type="hidden" name="filePath" value="<%= elem.path %>"></li>
-
-                    </form> 
-                   <%
-                   if (elem.children.length > 0){
-                      for (var i = 0; i< elem.children.length; i++){
-                        %><ul><%  repreTree(elem.children[i], elem.children[i].length, spaces++);%></ul><%
-                        spaces--;
-                      }
-                   }
-               }
-            }   
-            repreTree(tree, tree.children.length,0);
-         %>     
-        </scroll-container>
-                 
-    </nav>
  
-</div>
