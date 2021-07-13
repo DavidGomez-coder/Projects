@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
+const dirTree = require('directory-tree');
 
 const FILES_PATH = global.FILES_PATH;
 
@@ -11,11 +12,17 @@ module.exports = app => {
     app.use(fileUpload());
 
      app.post('/upload', (req, res) => {
-        let file = req.files.file;
-        let name = FILES_PATH + req.query.dirName;
-        file.mv(FILES_PATH+`/${file.name}`, err => {
-            if (err) return res.status(500).send({message : err})
-            return res.status(200).send({message : 'File Upload'})
-        })
+        let f = req.files.file;
+        let selectedPath = req.body.filePath ;
+   
+            console.log("NEW FILE: "  + f + ", to " + selectedPath);
+    
+            f.mv(FILES_PATH+`/${f.name}`, err => {
+                if (err) console.log("ERROR to upload " + f.name);
+            });
+        
+        const filest =  dirTree(FILES_PATH);
+        res.render("index", {filest});
+       
     });
 }

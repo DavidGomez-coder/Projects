@@ -11,7 +11,7 @@ module.exports = app => {
         }else{
             previousPath    = path.join(currentPath, "..");
         }
-        const files = await dirTree(previousPath);
-        await res.render("index", {files});
+        const filest = await dirTree(previousPath);
+        await res.render("index", {filest});
     });
 }

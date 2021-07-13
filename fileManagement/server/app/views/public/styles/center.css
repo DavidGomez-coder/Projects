@@ -1,6 +1,6 @@
 .center {
     height: 95%;
-    width: 50%;
+    width: 100%;
     border: black dotted 0.1em;
     margin-left: 0;
     margin-bottom: 1em;
@@ -9,18 +9,19 @@
 .secondNavBar {
     display: flex;
     padding: 0;
-    border: black 1px dotted;
     align-items:baseline;
-    height: 8%;;
+    width: 100%;
 }
 
 .route{
-    display:flex;
-    right: 0;
+    width: 100%;
+    text-align: right;
     color: royalblue;
     font-size: 100%;
     font-family: Arial, Helvetica, Sans-serif;
     font-weight: bold;
+    padding-right: .7em;
+    
 }
 
 .secondNavBarButton {

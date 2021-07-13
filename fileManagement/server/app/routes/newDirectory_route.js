@@ -31,8 +31,8 @@ module.exports = app => {
             })
         }
 
-        const files = dirTree(path.join(req.query.newfilePath));
-        await res.render("index", {files});
+        const filest = dirTree(path.join(req.query.newfilePath));
+        await res.render("index", {filest});
 
           
     });

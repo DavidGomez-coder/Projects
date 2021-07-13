@@ -7,8 +7,8 @@ module.exports = app => {
     app.get("/getDirectory", async (req, res) => {
 
         var path = req.query.filePath;
-        const files = await dirTree(path);
+        const filest = await dirTree(path);
         //console.log(files.children);
-        await res.render("index",{files});
+        await res.render("index",{filest});
     });
 }

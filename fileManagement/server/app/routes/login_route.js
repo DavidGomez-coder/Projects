@@ -17,9 +17,9 @@ module.exports = app => {
         if (-1770856881 == hashCode(req.query.passParam)){
             var count = 0;
             const tree = dirTree(FILES_PATH);
-            const files = tree;
+            const filest = tree;
             //console.log(tree);
-            await res.render("index",{files});
+            await res.render("index",{filest});
          }else{
             await res.render("login",{});
             console.log("Fail login: " + req.query.userParam + ", " + req.query.passParam);

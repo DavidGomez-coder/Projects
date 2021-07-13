@@ -2,6 +2,7 @@ const express = require('express');
 const path    = require('path');
 const bodyParser = require('body-parser');
 const { urlencoded } = require('body-parser');
+const body_parser = require('body-parser');
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "..", "app", "views", "src"));
 
 //middleware
-
+app.use(body_parser.urlencoded({extended:true}));
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded()); // to support URL-encoded bodies
 
 module.exports = app;
