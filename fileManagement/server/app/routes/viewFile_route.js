@@ -1,8 +1,8 @@
 
 const videoExtensions = [".mov",".avi",".wmv",".flv",".3gp",".mp4",".mpg"];
-const pdfExtension    = ".pdf";
+const pdfExtension    = [".pdf"];
 const textExtensions  = [".txt", ".odt", ".doc", ".docx"];
-const pictsExtensions = [".jpeg", ".jpg", ".png", ".gif", ".tiff"];
+const pictsExtensions = [".jpeg", ".jpg", ".png", ".gif", ".tiff",".svg"];
 
 const dirTree = require('directory-tree');
 
@@ -17,13 +17,18 @@ module.exports = app => {
     
         //file path to the file to view
         const filePath = path.replace(global.FILES_PATH,'');
-
+        const filest =  dirTree(path);
         //renders
         if (videoExtensions.includes(fileExtension)){
             console.log("Viewing " + filePath);
-            res.render("videoRep", {fileName, filePath, fileExtension, fileSize});
-        }else{
-            const filest =  dirTree(path);
+            res.render("viewMedia", {type:"video", filest, fileName, filePath, fileExtension, fileSize});
+        }else if (pdfExtension.includes(fileExtension)){
+            console.log("Viewing " + filePath);
+            res.render("viewMedia", {type:"pdf", filest, fileName, filePath, fileExtension, fileSize});
+        }else if (pictsExtensions.includes(fileExtension)){
+            console.log("Viewing " + filePath);
+            res.render("viewMedia", {type:"picture", filest, fileName, filePath, fileExtension, fileSize});
+        } else{
             res.render("index", {filest});
         }
     });

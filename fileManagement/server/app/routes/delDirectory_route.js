@@ -12,13 +12,11 @@ module.exports = app => {
         var newDir = path.join(directory, "..");
 
         //delete function
-        rimraf(directory, function(){
-            console.log(directory + " has been removed");
-        });
+        rimraf.sync(directory);
          
         //render ejs
         const filest =  dirTree(newDir);
-        res.render("index", {filest});
+        await res.render("index", {filest});
     });
 
 

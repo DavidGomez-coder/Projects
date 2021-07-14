@@ -25,12 +25,7 @@ module.exports = app => {
             console.log("Ya existe un directorio con este nombre");
         }else{
             //create an empty directory
-            fs.mkdir(name, async function(err){
-                if(err){
-                    throw('Error: ' + err);
-                }
-                console.log("\nDirectorio creado: " + name + "\n");
-            })
+            fs.mkdirSync(name);
         }
 
         const filest = dirTree(path.join(req.query.newfilePath));

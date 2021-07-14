@@ -1,6 +1,6 @@
 <scroll-container class="center">
 <div class="secondNavBar">
-    <form name="reloadForm" action="/reload" method="GET" enctype="multipart/form-data">
+    <form id="reloadForm" name="reloadForm" action="/reload" method="GET" enctype="multipart/form-data">
         <button id="reloadButton" type="submit" class="btn btn-outline-primary secondNavBarButton">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
@@ -48,7 +48,7 @@
                 function repreTree2 (elem, count){
 
                     %>
-                    <td style="text-align: center;"><%=elem.name%></td>
+                    <th scope="row" style="text-align: center;"><%=elem.name%></th>
                     <td style="text-align: center;"><%=elem.type%></td>
                     <td style="text-align: center;"><%=elem.extension%></td>
                     <td style="text-align: center;"><%=elem.size%></td>
@@ -64,19 +64,24 @@
                                 </button>
                             <input type="hidden" name="filePath" value="<%= elem.path %>"></li>
                                 </form ></td>
-                            <td>
+                            <td >
                                 <form action="/upload" method="POST" enctype="multipart/form-data" class="was-validated">
-                                    <button type="submit" class="btn btn-outline-success">
+                                    <input type="hidden" name="filePath" value="<%= elem.path %>"></li>
+
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button type="submit" class="btn btn-outline-success">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
                                             </svg>
-                                        </button>                               
-
-                                        <input type="file"  name="file" required>
-
-        
-                                        
-                                    <input type="hidden" name="filePath" value="<%= elem.path %>"></li>
+                                        </button> 
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file" id="inputGroupFile03" required>
+                                            <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                        </div>
+                                    </div>
                                 </form>    
                             </td>
                             <td>
@@ -91,17 +96,16 @@
                                 </form>
                             </td>
                             <td>
-                                <form action="/createNewDir" method="GET" enctype="multipart/form-data">
-                                        <div class="input-group w-50">
-                                            <button type="submit" class="btn btn-outline-success" >
+                                <form  action="/createNewDir" method="GET" enctype="multipart/form-data">
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-outline-success" >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
                                             <path d="m.5 3 .04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z"/>
                                             <path d="M13.5 10a.5.5 0 0 1 .5.5V12h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V13h-1.5a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z"/>
                                             </svg>
                                         </button>
                                         <input name="newName" type="text" class="form-control" placeholder="Name*" aria-label="Input group example" aria-describedby="basic-addon1">
-                                         </div>
-
+                                    </div>
                                     <input type="hidden" name="newfilePath" value="<%= elem.path %>"></li>
                                 </form>    
                             </td>
@@ -127,7 +131,7 @@
                                 <input type="hidden" name="filePath" value="<%= elem.path %>">
                                 <input type="hidden" name="fileExtension" value="<%= elem.extension %>">
                                 <input type="hidden" name="fileName" value="<%= elem.name %>">
-                                <input type="hidden" name="fileSize" value="<%= elem.size %>">
+                                <input type="hidden" name="fileSize" value="<%= elem.size/1000 %>">
                                 </li>
                             </form>    
                         </td>

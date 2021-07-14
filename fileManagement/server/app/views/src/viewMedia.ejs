@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title><%= fileName %>></title>
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+        <link rel="stylesheet" type="text/css" href="styles/center.css">
+        <link rel="stylesheet" type="text/css" href="styles/video.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+        <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+
+    </head>
+
+    <body>
+        <%- include ('menu.ejs') %>
+        <form action="/upDirectory" method="GET" enctype="multipart/form-data">
+            <button id="backDirectoryButton" type="submit" class="btn btn-outline-primary secondNavBarButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5z"/>
+                  </svg>
+            </button>
+            <input type="hidden" name="filePath" value="<%= filest.path %>"></li>
+            
+        </form>
+        <%
+            if (type == "video") {
+        %> 
+            <div class="center"> 
+                <div class="embed-responsive embed-responsive-21by9">
+                    <video class="embed-responsive-item" controls >
+                    
+                        <source src="/media/<%= filePath %>" />
+                    </video>
+                </div>
+            </div>
+        <%
+            }else if (type=="pdf" || type=="picture"){
+                %>
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="/media/<%= filePath %>"  frameborder="0" ></iframe>
+                </div>
+                <%
+                
+                
+            }else if (type=="text"){
+                %>
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="/media/<%= filePath %>"  frameborder="0" ></iframe>
+                </div>
+                <%
+            }
+        %>
+    </body>
+
+</html>
