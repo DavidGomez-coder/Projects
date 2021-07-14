@@ -8,6 +8,7 @@ const fileUpload = require('express-fileupload');
 */
 module.exports = app => {
    
+    //method to direct to login form (only accept root params)
     app.get('/', async (req, res) => {
        await res.render('login',{});
     });

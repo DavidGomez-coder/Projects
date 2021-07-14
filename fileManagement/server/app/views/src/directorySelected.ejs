@@ -20,7 +20,12 @@
         
     </form>
     <div class="route">
-        <p ><%= filest.path %></p>
+        <p >
+        <% 
+            var currentPath = filest.path.replace(global.FILES_PATH,'');    
+            if (currentPath == ""){ %> Main Directory<% }else { %> <%=currentPath%> <%}
+        %> 
+        </p>
     </div>
     
     </div>
@@ -51,7 +56,7 @@
                     if (elem.type == 'directory'){
                         %>
                             <td><form action="/getDirectory" method="GET" enctype="multipart/form-data">
-                                <button type="submit" class="btn btn-outline-primary">
+                                <button type="submit" class="btn btn-outline-primary" <% if (elem.path == filest.path) { %> disabled <%}%>>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"></path>
                                     <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"></path>
@@ -76,7 +81,7 @@
                             </td>
                             <td>
                                 <form action="/deleteDirectory" method="GET" enctype="multipart/form-data">
-                                    <button type="submit" class="btn btn-outline-danger">
+                                    <button type="submit" class="btn btn-outline-danger" <% if (elem.path == filest.path) { %> disabled <%}  %>>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-minus" viewBox="0 0 16 16">
                                     <path d="m.5 3 .04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z"></path>
                                     <path d="M11 11.5a.5.5 0 0 1 .5-.5h4a.5.5 0 1 1 0 1h-4a.5.5 0 0 1-.5-.5z"></path>
@@ -112,13 +117,18 @@
                     
                     %>
                         <td>
-                            <form action="/" method="GET" enctype="multipart/form-data">
+                            <form action="/viewMedia" method="GET" enctype="multipart/form-data">
                                 <button type="submit" class="btn btn-outline-primary">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"></path>
                                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
                                     </svg>
                                 </button>
+                                <input type="hidden" name="filePath" value="<%= elem.path %>">
+                                <input type="hidden" name="fileExtension" value="<%= elem.extension %>">
+                                <input type="hidden" name="fileName" value="<%= elem.name %>">
+                                <input type="hidden" name="fileSize" value="<%= elem.size %>">
+                                </li>
                             </form>    
                         </td>
                         <td>

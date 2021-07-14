@@ -3,6 +3,8 @@ const FILES_PATH = global.FILES_PATH;
 const dirTree = require('directory-tree');
 
 module.exports = app => {
+
+    //go to up directory
     app.get("/upDirectory", async (req, res) => {
         const currentPath = await req.query.filePath;
         var previousPath = "";

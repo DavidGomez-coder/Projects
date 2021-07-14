@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const dirTree = require('directory-tree');
+const swal = require('sweetalert2');
 
 const FILES_PATH = global.FILES_PATH;
 
@@ -16,12 +17,12 @@ module.exports = app => {
         let selectedPath = req.body.filePath ;
    
             console.log("NEW FILE: "  + f + ", to " + selectedPath);
-    
-            f.mv(FILES_PATH+`/${f.name}`, err => {
+            f.mv(selectedPath+`/${f.name}`, err => {
                 if (err) console.log("ERROR to upload " + f.name);
             });
-        
-        const filest =  dirTree(FILES_PATH);
+
+        console.log(" END UPLOADING ........");
+        const filest =  dirTree(selectedPath);
         res.render("index", {filest});
        
     });

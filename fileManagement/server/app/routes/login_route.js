@@ -6,9 +6,8 @@ const FILES_PATH = global.FILES_PATH;
 
 
 module.exports = app => {
-    /**
-     * Redirect to main page after introduce username and password
-     */
+     // Redirect to main page after introduce correct username and password. Only accepts a 
+     // a pre-defined user and password (root and vc$$root)
      app.get("/login", async (req, res) => {   
         hashCode = function(s){
             return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              

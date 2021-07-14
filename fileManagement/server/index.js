@@ -1,8 +1,10 @@
 const app = require('./config/server.js');
 const path = require('path');
 
+//global path to files directory
 global.FILES_PATH = path.join(__dirname, "..",".","files");
 
+//requirements routes
 require('./app/routes/main_route.js')(app);
 require('./app/routes/login_route.js')(app);
 require('./app/routes/upload_route.js')(app);
@@ -12,13 +14,13 @@ require('./app/routes/upDirectory_route.js')(app);
 require('./app/routes/reload_route.js')(app);
 require('./app/routes/delDirectory_route.js')(app);
 require('./app/routes/download_route.js')(app);
-
+require('./app/routes/viewFile_route.js')(app);
 
 const express = require('express');
 const router = express.Router();
 
 //statics elements
-app.use('/media', express.static(__dirname + "/app/views/public/media"));
+app.use('/media', express.static(path.join(__dirname, "..","files")));
 app.use('/images', express.static(__dirname + "/app/views/public/images"));
 app.use('/styles',express.static(__dirname + '/app/views/public/styles'));
 app.use('/scripts',express.static(__dirname + '/app/views/public/scripts'));
