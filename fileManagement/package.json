@@ -13,6 +13,7 @@
     "async-directory-tree": "^2.3.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^5.0.2",
+    "chromecast-api": "^0.3.4",
     "compression": "^1.7.4",
     "directory-tree": "^2.2.9",
     "ejs": "^3.1.6",

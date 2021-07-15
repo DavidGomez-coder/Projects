@@ -16,6 +16,7 @@ require('./app/routes/reload_route.js')(app);
 require('./app/routes/delDirectory_route.js')(app);
 require('./app/routes/download_route.js')(app);
 require('./app/routes/viewFile_route.js')(app);
+require('./app/routes/chromecast_route.js')(app);
 
 const express = require('express');
 const router = express.Router();

@@ -14,6 +14,7 @@
 
     <body>
         <%- include ('menu.ejs') %>
+        <div class="secondNavBar">
         <form action="/upDirectory" method="GET" enctype="multipart/form-data">
             <button id="backDirectoryButton" type="submit" class="btn btn-outline-primary secondNavBarButton">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
@@ -23,9 +24,12 @@
             <input type="hidden" name="filePath" value="<%= filest.path %>"></li>
             
         </form>
+    </div>
         <%
             if (type == "video") {
         %> 
+        
+    
             <div class="center"> 
                 <div class="embed-responsive embed-responsive-21by9">
                     <video class="embed-responsive-item" controls >
@@ -40,9 +44,7 @@
                 <div class="embed-responsive embed-responsive-21by9">
                     <iframe class="embed-responsive-item" src="/media/<%= filePath %>"  frameborder="0" ></iframe>
                 </div>
-                <%
-                
-                
+                <%                
             }else if (type=="text"){
                 %>
                 <div class="embed-responsive embed-responsive-21by9">
