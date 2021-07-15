@@ -4,18 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --trace-warnings server/index.js"
+    "start": "node --trace-warnings --nouse_idle_notification server/index.js -c 10 -n 100000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async-directory-tree": "^2.3.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^5.0.2",
+    "compression": "^1.7.4",
     "directory-tree": "^2.2.9",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
+    "memory-cache": "^0.2.0",
     "mime-types": "^2.1.31",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",

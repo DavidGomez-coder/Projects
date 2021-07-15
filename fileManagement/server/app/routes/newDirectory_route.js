@@ -2,8 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const dirTree = require('directory-tree');
-const { nextTick } = require('process');
-const Swal = require('sweetalert2');
+const cache = require('memory-cache');
+
 
 const FILES_PATH = global.FILES_PATH;
 
@@ -27,9 +27,10 @@ module.exports = app => {
             //create an empty directory
             fs.mkdirSync(name);
         }
-
         const filest = dirTree(path.join(req.query.newfilePath));
-        await res.render("index", {filest});
+        //save in cache
+        cache.put(filest.path, filest);
+        res.render("index", {filest});
 
           
     });

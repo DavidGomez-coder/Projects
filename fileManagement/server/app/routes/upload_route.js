@@ -3,6 +3,7 @@ const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const dirTree = require('directory-tree');
 const swal = require('sweetalert2');
+const cache = require('memory-cache');
 
 const FILES_PATH = global.FILES_PATH;
 
@@ -23,6 +24,7 @@ module.exports = app => {
 
         console.log(" END UPLOADING ........");
         const filest =  dirTree(selectedPath);
+        cache.put(filest.path, filest);
         res.render("index", {filest});
        
     });

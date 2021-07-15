@@ -5,7 +5,7 @@ const textExtensions  = [".txt", ".odt", ".doc", ".docx"];
 const pictsExtensions = [".jpeg", ".jpg", ".png", ".gif", ".tiff",".svg"];
 
 const dirTree = require('directory-tree');
-
+const cache = require('memory-cache');
 module.exports = app => {
 
     app.get("/viewMedia", (req, res) => {
@@ -18,6 +18,7 @@ module.exports = app => {
         //file path to the file to view
         const filePath = path.replace(global.FILES_PATH,'');
         const filest =  dirTree(path);
+        
         //renders
         if (videoExtensions.includes(fileExtension)){
             console.log("Viewing " + filePath);

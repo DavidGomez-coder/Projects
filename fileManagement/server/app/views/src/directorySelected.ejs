@@ -21,9 +21,8 @@
     </form>
     <div class="route">
         <p >
-        <% 
-            var currentPath = filest.path.replace(global.FILES_PATH,'');    
-            if (currentPath == ""){ %> Main Directory<% }else { %> <%=currentPath%> <%}
+        <%= 
+            filest.path
         %> 
         </p>
     </div>
@@ -111,7 +110,7 @@
                             </td>
                         <%
 
-                        if (count ==  0&& elem.children.length > 0){
+                        if (count ==  0 && elem.children.length > 0){
                         count++;
                         for (var i = 0; i< elem.children.length; i++){
                             %><tr><%repreTree2(elem.children[i], count);%></tr><%
