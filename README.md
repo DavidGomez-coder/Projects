@@ -21,8 +21,6 @@
   - Cliente Multichat utilizando paquete NIO de java
   - Práctica de programacion web utilizando servlets
 
-### HTML, CSS y JavaScript 💻
-  - DataStructuresProyect (en proceso)
 
 ### File Management 📂
   - Este proyecto trata sobre la creación de un "google drive" utilizando nodejs, bootstrap, javascript y express, para su utilización local o remoto.
