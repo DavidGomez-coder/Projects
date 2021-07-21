@@ -35,9 +35,6 @@
   1. Prácticas
     - Prácticas realizadas de JFlex y Cup durante el curso
   2. Compiladores
-    - Compiladores basados en java
-        - soon ...
-    - Parser de Python a Java
-        - soon ...
+    - Intérprete AnsysPL
 
  
