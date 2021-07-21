@@ -1,0 +1,3 @@
+A1=-24
+ABS1=ABS(A1)
+*STATUS

@@ -1,0 +1,7 @@
+AVISO: NOMBRE PARÁMETRO
+Exception in thread "main" java.lang.Error: Error: could not match input
+	at Yylex.zzScanError(Yylex.java:435)
+	at Yylex.next_token(Yylex.java:591)
+	at java_cup.runtime.lr_parser.scan(lr_parser.java:366)
+	at java_cup.runtime.lr_parser.parse(lr_parser.java:693)
+	at AnsysPL.main(AnsysPL.java:23)

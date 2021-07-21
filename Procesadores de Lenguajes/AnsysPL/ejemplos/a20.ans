@@ -1,0 +1,4 @@
+TXT='texto'
+*SET,v1,-34.56
+TXT=
+*STATUS,TXT

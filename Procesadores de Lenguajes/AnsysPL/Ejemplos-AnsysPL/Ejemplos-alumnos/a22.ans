@@ -1,0 +1,4 @@
+RESIST=23.67   !resistencia
+v1=-3!4.56      !velocidad caso 1
+TEXTO='hola'   !texto para el fichero
+*STATUS,v1     !imprimir parametros 

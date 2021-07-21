@@ -1,0 +1,312 @@
+import java_cup.runtime.*;
+import java.util.*;
+
+
+//*************************************************************************************************
+// 	ACTION CODE
+//*************************************************************************************************
+action code {:
+	boolean conditionIf = false;
+	boolean isInIf      = false;
+	boolean headIf      = false;
+	int ifCount = 0;
+
+:};
+
+//*************************************************************************************************
+//	TERMINALS
+//*************************************************************************************************
+terminal String NAME_VAR, STRING, ZERO_NAME_VAR;
+terminal Double NUMBER;
+
+
+terminal SET, COMMA, ASIG, STATUS;
+terminal SIGN, ABS;
+terminal OB, CB;
+terminal PLUS, MINUS, MUL, DIV, POW, UMINUS;
+terminal IF,THEN, ELSEIF, ELSE, ENDIF;
+terminal ABGT, ABLT, GE, LE, GT, LT, NE, EQ;
+
+//*************************************************************************************************
+//	NON TERMINALS
+//*************************************************************************************************
+non terminal sentences, list_sentences;
+non terminal asignment, print, print_aux;
+
+non terminal Var value;
+non terminal Double expression;
+non terminal Double scalarFunct;
+non terminal if, else_part;
+non terminal String operator;
+
+//*************************************************************************************************
+//	PRECEDENCES
+//*************************************************************************************************
+precedence left NAME_VAR, NUMBER;
+precedence left PLUS, MINUS;
+precedence left MUL, DIV, UMINUS;
+precedence right POW;
+
+
+//*************************************************************************************************
+//	GRAMMAR
+//*************************************************************************************************
+list_sentences ::=
+	sentences
+	|
+	list_sentences sentences
+	;
+	
+
+sentences ::=
+	asignment
+	|
+	print
+	|
+	if
+	;
+	
+	
+//*************************************************************************************************
+//	IF SENTENCE
+//*************************************************************************************************
+if ::=
+	IF {: ifCount++; headIf = true; conditionIf=false; isInIf=true; :} 
+	COMMA value:v1 COMMA operator:o COMMA value:v2 
+	{:
+		if (Gen.resCondition(v1, o, v2)) {
+			conditionIf = true;
+		}else{
+			conditionIf = false;
+		}
+		headIf = false;
+	:}
+	COMMA THEN sentences else_part  ENDIF 
+	{: ifCount--; conditionIf=false; if (ifCount==0) {isInIf=false;} headIf = false;:}
+	|
+	IF error
+	{: Err.newError("SENTENCIA *IF MAL CONSTRUIDA"); :}
+	|
+	ELSE error
+	{: Err.newError("SENTENCIA *IF MAL CONSTRUIDA"); :}
+	|
+	ELSEIF error
+	{: Err.newError("SENTENCIA *IF MAL CONSTRUIDA"); :}
+	;
+	
+
+else_part ::=
+	ELSEIF {: headIf = true; :} COMMA value:v1 COMMA operator:o COMMA value:v2 {:  
+		if (!conditionIf && Gen.resCondition(v1, o, v2)) {
+			conditionIf = true;
+		}else{
+			conditionIf = false;
+		}
+		headIf = false;
+	:} sentences else_part
+	|
+	ELSE {:  
+		if (!conditionIf) { 
+			conditionIf = true;
+		}else{
+			conditionIf = false;
+		}  
+	     :} sentences
+	|
+	;
+	
+//*************************************************************************************************
+//	CONDITIONALS OPERATORS
+//*************************************************************************************************
+operator ::=
+	ABGT    {: RESULT = "ABGT"; :}
+	 | ABLT {: RESULT = "ABLT"; :}
+	 | LE 	{: RESULT = "LE"; :}
+	 | GE 	{: RESULT = "GE"; :}
+	 | GT 	{: RESULT = "GT"; :}
+	 | LT 	{: RESULT = "LT"; :}
+	 | NE 	{: RESULT = "NE"; :}
+	 | EQ 	{: RESULT = "EQ"; :}
+	;
+
+	
+//*************************************************************************************************
+//	PRINT GRAMMAR
+//*************************************************************************************************
+print ::=
+	STATUS
+	{:
+	
+	 if (!isInIf || headIf || (isInIf && conditionIf)){
+	 	String res = Gen.print(null);
+	 }
+	  
+	:}
+	|
+	STATUS COMMA NAME_VAR:n
+	{:
+		if (!isInIf || headIf || (isInIf && conditionIf)){
+			if (Gen.nameVarIsNotValid(n)){
+				Err.newError("NOMBRE PARÁMETRO");
+			}
+			
+			if (Gen.nameVarIsWarning(n)){
+				Err.newWarning("NOMBRE PARÁMETRO");
+			}
+			
+			if (TS.getVariable(n) == null){//variable no definida
+				TS.setVariable(n, new Var("SCALAR", String.valueOf(Double.MIN_VALUE)));
+			}
+			String res = Gen.print(n);
+		}
+	:}
+	
+	;
+
+	
+//*************************************************************************************************
+//	ASIGNMENT VARIABLES
+//*************************************************************************************************
+asignment ::=
+	NAME_VAR:n ASIG
+	{: 
+		if (!isInIf || headIf || (isInIf && conditionIf)){
+			if (Gen.nameVarIsNotValid(n)){
+				Err.newError("NOMBRE PARÁMETRO");
+			}
+			
+			if (Gen.nameVarIsWarning(n)){
+				Err.newWarning("NOMBRE PARÁMETRO");
+			}
+		}
+	:}value:v {: 
+			if (!isInIf || headIf || (isInIf && conditionIf)){
+				TS.setVariable(n,v);
+			}
+ 	:}
+	|
+	SET COMMA NAME_VAR:n 
+		{:
+			if (!isInIf || headIf || (isInIf && conditionIf)){
+				if (Gen.nameVarIsNotValid(n)){
+					Err.newError("NOMBRE PARÁMETRO");
+				}
+				
+				if (Gen.nameVarIsWarning(n)){
+					Err.newWarning("NOMBRE PARÁMETRO");
+				}
+			}
+		:} 
+		COMMA value:v 
+		{:  
+			if (!isInIf || headIf || (isInIf && conditionIf)){
+				TS.setVariable(n,v);
+			}
+		:}
+	|
+	NAME_VAR error
+	{: Err.newError("NOMBRE PARÁMETRO"); :}
+	;
+	
+	
+	
+//*************************************************************************************************	
+//	VARIABLES VALUE
+//*************************************************************************************************
+value ::=
+	STRING:s {: 
+		if (!isInIf || headIf || (isInIf && conditionIf)){
+			if (s.length() > 8){
+				Err.newError("TEXTO LARGO");
+			}
+			RESULT = new Var("CHARACTER", s); 
+		}
+	:}
+	|
+	scalarFunct:f
+	{: if (!isInIf || headIf || (isInIf && conditionIf)){ RESULT = new Var("SCALAR", String.valueOf(f)); } :}
+	|
+	expression:e
+	{: if (!isInIf || headIf || (isInIf && conditionIf)){ RESULT = new Var("SCALAR", String.valueOf(e)); } :}
+	|
+	{: if (!isInIf || headIf || (isInIf && conditionIf)){ RESULT = new Var("SCALAR", 				    		   String.valueOf(Double.MIN_VALUE)); }:}
+	;
+
+
+
+//*************************************************************************************************	
+//scalar functions
+//*************************************************************************************************
+scalarFunct ::=
+	SIGN OB value:v1 COMMA value:v2 CB
+	{:
+			Double value1 = Double.parseDouble(v1.getValueVar());
+			Double value2 = Double.parseDouble(v2.getValueVar());
+			
+			if (value2 >= 0){
+				RESULT = Math.abs(value1);
+			}else{
+				if (value1 < 0) {
+					RESULT = value1;
+				}else{
+					RESULT = (-1)*value1;
+				}
+				
+			}
+	:}
+	|
+	ABS OB value:v CB
+	{:  RESULT = Math.abs(Double.parseDouble(v.getValueVar())); :}
+	;
+
+
+//*************************************************************************************************	
+//	ARITHMETICS EXPRESSIONS
+//*************************************************************************************************
+expression ::=
+	NUMBER:n
+	{: RESULT = n; :}
+	|
+	NAME_VAR:n
+	{:
+		if (Gen.nameVarIsNotValid(n)){
+			Err.newError("NOMBRE PARÁMETRO");
+		}
+			
+		if (Gen.nameVarIsWarning(n)){
+			Err.newWarning("NOMBRE PARÁMETRO");
+		}
+		
+		//value assigment when variable is not defined
+		Var v = TS.getVariable(n);
+		if (v==null){
+			TS.setVariable(n, new Var("SCALAR", String.valueOf(Double.MIN_VALUE)));
+			RESULT = Double.MIN_VALUE;
+		}else{
+			
+			RESULT = Double.parseDouble(v.getValueVar());
+		}
+	:}
+	|
+	OB expression:e CB
+	{: RESULT = e; :}
+	|
+	expression:e1 PLUS expression:e2
+	{: RESULT = e1 + e2; :}
+	|
+	expression:e1 MINUS expression:e2
+	{: RESULT = e1 - e2; :}
+	|
+	expression:e1 MUL expression:e2
+	{: RESULT = e1*e2; :}
+	|
+	expression:e1 DIV expression:e2
+	{: RESULT = e1 / e2; :}
+	|
+	expression:e1 POW expression:e2 
+	{: RESULT = Math.pow(e1, e2); :}
+	|
+	MINUS expression:e
+	{: RESULT = -e; :} %prec UMINUS
+	;
+	

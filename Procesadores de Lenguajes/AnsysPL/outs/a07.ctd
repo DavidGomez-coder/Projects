@@ -1,0 +1,10 @@
+match: --APELLIDOS--
+action [14] { return new Symbol (sym.NAME_VAR, yytext()); }
+match: --=--
+action [19] { return new Symbol(sym.ASIG); }
+match: --'RODRIGUEZ_LOPEZ'--
+action [28] { String text = yytext();//yytext().substring(1, yytext().length()-1);
+	     return new Symbol(sym.STRING, text); }
+match: --\u000A--
+action [31] {  }
+ERROR: TEXTO LARGO

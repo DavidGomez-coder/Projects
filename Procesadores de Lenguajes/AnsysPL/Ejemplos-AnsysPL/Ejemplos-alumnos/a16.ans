@@ -1,0 +1,4 @@
+RESIST=23.67
+v1=-34.56
+TEXTO='hola'
+*STATUS,v1
