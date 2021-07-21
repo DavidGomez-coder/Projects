@@ -21,7 +21,7 @@ public class AnsysPL {
 			System.setErr(out);
 			parser p = new parser(new Yylex(in));
 			Object result = p.parse().value;
-			TS.showTS();
+			//TS.showTS();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
