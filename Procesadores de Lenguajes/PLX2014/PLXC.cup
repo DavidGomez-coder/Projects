@@ -1,0 +1,401 @@
+import java_cup.runtime.*;
+import ctdGenerator.*;
+import java.util.*;
+
+
+parser code {:
+    public void syntax_error(Symbol cur_token){
+		Global.error("syntax error");
+	}
+
+:};
+
+//**********************************************
+//      TERMINALES
+//*********************************************
+terminal String INT_NUM, FLOAT_NUM;       //numéricos
+terminal PLUS, MINUS, MUL, DIV, UMINUS, MOD;   //operadores numéricos
+terminal OB, CB, OCB, CCB;            //paréntesis
+terminal PYC, COMMA;
+terminal String VAR_NAME;   //nombre de variables
+terminal PRINT;             //funciones predefinidas
+terminal INT;               //tipos
+terminal ASIG;
+terminal LT, LE, GT, GE, EQ, NE, OR, AND, NOT;
+terminal IF, ELSE;
+terminal INC, DEC;
+terminal FOR, TO, DOWNTO, DO, STEP;
+terminal WHILE;
+
+//**********************************************
+//      NO TERMINALES
+//**********************************************
+non terminal sentence, list_sentences;
+non terminal expression;
+non terminal Expression  numeric_expression; //expresiones numéricas
+non terminal var_declaration, var_inicialization;               //delcaración de variables
+non terminal List<String> var_list, vars_ini_array;        //lista de variables en la declaración (sin inicializar)
+non terminal  int_var_list_declaration; //lista de variables para su inicialización
+non terminal String p_value;
+non terminal list_declaration;
+non terminal Expression value_part;
+non terminal Condition condition;   //condiciones aritméticas
+
+
+non terminal if_sentence;   //sentencia if
+non terminal String if_head;
+non terminal else_if_part;
+
+non terminal for_sentence; //sentencias for
+non terminal for_loop; //for estilo java
+non terminal for_to_sent, for_down_sent;
+non terminal String for_head, down_label, to_label;
+non terminal Expression loop_var, step_part, increment_part;
+
+non terminal while_sentence, do_while_sentence;
+non terminal String while_head;
+non terminal String do_head;
+
+non terminal block;
+
+//**********************************************
+//      PRECEDENCIAS
+//**********************************************
+precedence left ASIG;
+precedence left OR;
+precedence left AND;
+precedence left EQ, NE;
+precedence left LT, LE, GT, GE;
+precedence left PLUS, MINUS;
+precedence left MUL, DIV, MOD;
+precedence right UMINUS, INC, DEC;
+precedence right VAR_NAME;
+
+precedence nonassoc IF, ELSE;
+
+//**********************************************
+//      GRAMÁTICA
+//**********************************************
+list_sentences ::=
+    sentence
+    |
+    list_sentences sentence
+    ;
+
+sentence ::=
+    expression PYC
+    |
+    if_sentence
+    |
+    for_sentence
+    |
+    while_sentence
+    |
+    do_while_sentence
+    |
+    PRINT OB p_value:p CB PYC 
+    {: Print.printValue(p); :}
+    |
+    block
+    |
+    error 
+    {:  parser.syntax_error(null);    :}
+    ;
+
+expression ::=
+    numeric_expression
+    |
+    var_declaration
+    |
+    var_inicialization
+    ;
+
+p_value ::=
+    numeric_expression:n
+    {:  RESULT = n.getValue().toString();    :}
+    ;
+
+//**********************************************
+//      EXPRESIONES NUMÉRICAS
+//**********************************************
+numeric_expression ::=
+    OB numeric_expression:n CB
+    {:   RESULT = n;   :}
+    |
+    INT_NUM:n
+    {:  RESULT = new Expression(Global.INTEGER, n);    :}
+    |
+    FLOAT_NUM:f
+    {:  RESULT = new Expression(Global.FLOAT, f);    :}
+    |
+    VAR_NAME:n
+    {:      
+        RESULT = VarDeclaration.getVar(n);
+    :}
+    |
+    INC VAR_NAME:n
+    {:  RESULT = VarDeclaration.varValueInc(n, Global.LEFT);    :}
+    |
+    DEC VAR_NAME:n
+    {:  RESULT = VarDeclaration.varValueDec(n, Global.LEFT);    :}
+    |
+    VAR_NAME:n INC
+    {:  RESULT = VarDeclaration.varValueInc(n, Global.RIGHT);    :}
+    |
+    VAR_NAME:n DEC
+    {:   RESULT = VarDeclaration.varValueDec(n, Global.RIGHT);   :}
+    |
+    numeric_expression:e1 PLUS numeric_expression:e2 
+    {:  RESULT = Operation.arithmetic(e1, Global.PLUS, e2);            :}
+    |
+    numeric_expression:e1 MINUS numeric_expression:e2
+    {:  RESULT = Operation.arithmetic(e1, Global.MINUS, e2); :}
+    |
+    numeric_expression:e1 MUL numeric_expression:e2
+    {:  RESULT = Operation.arithmetic(e1, Global.MUL, e2); :}
+    |
+    numeric_expression:e1 DIV numeric_expression:e2
+    {:  RESULT = Operation.arithmetic(e1, Global.DIV, e2); :}
+    |
+    numeric_expression:e1 MOD numeric_expression:e2
+    {:  RESULT = Operation.arithmetic(e1, Global.MOD, e2);    :}
+    |
+    MINUS numeric_expression:e
+    {:   RESULT = Operation.arithmetic(null, Global.MINUS, e);    :}%prec UMINUS
+    ;
+
+//**********************************************
+//      CONDICIONES
+//**********************************************
+condition ::=
+    OB condition:c CB
+    {: RESULT = c; :}
+    |
+    numeric_expression:e1 EQ numeric_expression:e2
+    {:   RESULT = Operation.condition(e1, Global.EQ, e2);   :}
+    |
+    numeric_expression:e1 NE numeric_expression:e2
+    {:   RESULT = Operation.condition(e1, Global.NE, e2);   :}
+    |
+    numeric_expression:e1 LT numeric_expression:e2
+    {:   RESULT = Operation.condition(e1, Global.LT, e2);   :}
+    |
+    numeric_expression:e1 LE numeric_expression:e2
+    {:   RESULT = Operation.condition(e1, Global.LE, e2);   :}
+    |
+    numeric_expression:e1 GT numeric_expression:e2
+    {:   RESULT = Operation.condition(e1, Global.GT, e2);   :}
+    |
+    numeric_expression:e1 GE numeric_expression:e2
+    {:   RESULT = Operation.condition(e1, Global.GE, e2);   :}
+    |
+    NOT condition:c
+    {:   RESULT = Operation.booleanOperator(null, Global.NOT, c);   :}
+    |
+    condition:c1 AND {: System.out.println(c1.true_label() + ":");    :}
+    condition:c2 {: RESULT = Operation.booleanOperator(c1, Global.AND, c2); :}
+    |
+    condition:c1 OR {:  System.out.println(c1.false_label() + ":");   :}
+    condition:c2 {: RESULT = Operation.booleanOperator(c1, Global.OR, c2);   :}
+    ;
+
+
+//**********************************************
+//     DECLARACIÓN DE VARIABLES
+//**********************************************
+var_declaration ::=
+
+    //inicialización de una lista de variables a un valor entero
+    INT int_var_list_declaration 
+    ;
+
+
+/* Inicialización de una lista de variables a un valor*/
+int_var_list_declaration ::=
+   int_var_list_declaration:l COMMA VAR_NAME:n value_part:e
+    {:  
+        System.out.println("#DECLARACIÓN: " + n + " = " + e.getValue());
+       VarDeclaration.int_var_declaration(n, e);
+    :}
+    |
+    VAR_NAME:n value_part:e
+    {:
+        System.out.println("#DECLARACIÓN: " + n + " = " + e.getValue());
+        VarDeclaration.int_var_declaration(n, e);
+    :}
+    ;
+
+value_part ::=
+    ASIG numeric_expression:e
+    {: RESULT = e; :}
+    |
+    {: RESULT = new Expression(Global.INTEGER, new Integer(0)); :}
+    ;
+
+/*  Declaración múltiple de variables (actualización de variables ya declaradas)  */
+var_inicialization ::=
+    vars_ini_array:l  ASIG numeric_expression:e
+    {: VarDeclaration.multipleAsigValueVar(l, e); RESULT = e; :}
+    ;
+
+vars_ini_array ::=
+    VAR_NAME:n
+    {:  
+        List<String> l = new ArrayList<>(); 
+        l.add(n); 
+        RESULT = l; 
+    :}
+    |
+    vars_ini_array:v ASIG VAR_NAME:n
+    {:
+        List<String> l = new ArrayList<>();
+        l.add(n);
+        l.addAll(v);
+        RESULT = l;
+    :}
+    ;
+
+//**********************************************
+//     SENTENCIA IF
+//**********************************************
+if_sentence ::=
+    if_head:i OB condition:c CB {:  Global.label(c.true_label());    :}
+    sentence                    {:  Global.gotoLabel(i); Global.label(c.false_label()); :}
+    else_if_part                {:  Global.label(i); :}
+    ;
+
+if_head::=
+    IF {:  RESULT = TS.newLabel(); :}
+    ;
+
+else_if_part ::=
+    ELSE sentence                    {: String lab = TS.newLabel(); Global.label(lab);    :}
+    |
+    ;
+
+//*********************************************************
+//     SENTENCIA FOR 
+//***********************************************************
+for_sentence ::=
+    for_to_sent
+    |
+    for_down_sent
+    |
+    for_loop
+    ;
+
+for_head ::=
+    FOR {: RESULT = TS.newLabel(); :}
+    ;
+
+//*********************************************************
+//     SENTENCIA FOR ESTILO JAVA
+//***********************************************************
+for_loop ::=
+    for_head:f OB loop_var:e1 PYC   {: Global.label(f); :}
+    condition:c PYC                 {: RESULT = TS.newLabel(); Global.label(RESULT.toString());     :}
+    increment_part:e2 CB                {: Global.gotoLabel(f); Global.label(c.true_label()); :}
+    sentence                        {: Global.gotoLabel(RESULT.toString()); Global.label(c.false_label());    :}
+    ;
+
+increment_part ::=
+    numeric_expression:n
+    {:  RESULT = n;    :}
+    |
+    VAR_NAME:n ASIG numeric_expression:e
+    {:   VarDeclaration.varValAct(n, e); RESULT = new Expression(e.getType(), n);   :}
+    |
+    var_inicialization:v
+    {:   RESULT = (Expression)v;   :}
+    ;
+
+//*********************************************************
+//     SENTENCIA FOR ESTILO PASCALL (for-to | for-downto)
+//***********************************************************
+
+for_to_sent ::=
+    for_head:f loop_var:v to_label:t numeric_expression:e2  {: Global.label(f); RESULT = Operation.condition(v, Global.LE, e2); 
+                                                               Global.label(t); :}
+    step_part:s DO                                          {: ForLoop.loop_var(v, Global.PLUS,s); Global.gotoLabel(f);
+                                                               Condition c = (Condition)RESULT;
+                                                               Global.label(c.true_label()); :}
+    sentence                                                {: Global.gotoLabel(t);
+                                                               Condition c = (Condition)RESULT;
+                                                               Global.label(c.false_label());
+                                                            :}
+    ;
+
+for_down_sent ::=
+    for_head:f loop_var:v down_label:d numeric_expression:e2{: Global.label(f); RESULT = Operation.condition(v, Global.GE, e2); 
+                                                               Global.label(d); :}
+    step_part:s DO                                          {: ForLoop.loop_var(v, Global.MINUS, s); Global.gotoLabel(f);
+                                                               Condition c = (Condition)RESULT;
+                                                               Global.label(c.true_label()); :}
+    sentence                                                {: Global.gotoLabel(d);
+                                                               Condition c = (Condition)RESULT;
+                                                               Global.label(c.false_label());
+                                                            :}
+    ;
+
+loop_var ::=
+    VAR_NAME:n ASIG numeric_expression:e
+    {:      
+        String name = VarDeclaration.intVarInicialization(n, e);
+        RESULT = new Expression(e.getType(), name);
+    :}
+    ;
+
+to_label ::=
+    TO {:  RESULT = TS.newLabel(); :}
+    ;
+
+down_label ::=
+    DOWNTO {:  RESULT = TS.newLabel();  :}
+    ;
+
+step_part ::=
+    STEP numeric_expression:n
+    {:  RESULT = n;    :}
+    |
+    {:  RESULT = new Expression(Global.INTEGER, new Integer(1));    :}
+    ;
+
+//**********************************************
+//      SENTENCIA WHILE
+//**********************************************
+
+while_sentence ::=
+    while_head:w        {:  Global.label(w);    :}
+    OB condition:c      {:  Global.label(c.true_label()); :}
+    CB sentence         {:  Global.gotoLabel(w); Global.label(c.false_label()); :}
+    ;
+
+while_head ::=
+    WHILE {:  RESULT = TS.newLabel(); :}
+    ;
+
+
+//**********************************************
+//      SENTENCIA DO-WHILE
+//**********************************************
+do_while_sentence ::=
+    do_head:d                            {:  Global.label(d);    :}
+    sentence WHILE OB condition:c        {:  Global.label(c.true_label()); 
+                                             Global.gotoLabel(d);   
+                                             Global.label(c.false_label()); :}
+    CB PYC
+    ;
+
+do_head ::=
+    DO {:  RESULT = TS.newLabel(); :}
+    ;
+
+
+//**********************************************
+//     CONTROL DE BLOQUES
+//**********************************************
+block ::=
+    OCB             {: TS.newBlock(); :}
+    list_sentences  {: TS.deleteBlock(); :}
+    CCB 
+    ;

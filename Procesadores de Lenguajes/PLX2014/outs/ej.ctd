@@ -1,0 +1,20 @@
+#DECLARACIÓN: x = 0
+	x = 0;
+#DECLARACIÓN: y = 10
+	y = 10;
+	x = 1;
+$L0:
+	if (x < y) goto $L1;
+	goto $L2;
+$L3:
+	$t0 = x;
+	x = x + 1;
+	y = $t0;
+#ACCESO A LA VARIABLE VAR{y, $t0}
+	x = $t0;
+#ACCESO A LA VARIABLE VAR{x, $t0}
+	goto $L0;
+$L1:
+	print x;
+	goto $L3;
+$L2:

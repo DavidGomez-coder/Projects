@@ -1,0 +1,10 @@
+#DECLARACIÓN: x = 0
+	x = 0;
+	x = 1;
+#ACCESO A LA VARIABLE VAR{x, 1}
+	$t0 = x;
+	x = x + 1;
+	$t1 = 1 + $t0;
+	x = $t1;
+#ACCESO A LA VARIABLE VAR{x, $t1}
+	print x;
