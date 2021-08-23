@@ -1,0 +1,7 @@
+#DECLARACIÓN: x = 0
+	x = 0;
+error; #error de tipos
+halt;
+	x = 3.1416;
+#ACCESO A LA VARIABLE VAR{x, 3.1416}
+	print x;

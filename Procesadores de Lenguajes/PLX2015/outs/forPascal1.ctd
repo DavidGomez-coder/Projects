@@ -1,0 +1,17 @@
+#EXPRESION: 1
+	i = 1;
+$L0:
+	if (10 < i) goto $L3;
+	goto $L2;
+$L1:
+	$t0 = i + 1;
+	i = $t0;
+#ACCESO A LA VARIABLE VAR{i, 2}
+	goto $L0;
+$L2:
+	$t1 = suma + i;
+	suma = $t1;
+#ACCESO A LA VARIABLE VAR{suma, $t1}
+	goto $L1;
+$L3:
+	print suma;

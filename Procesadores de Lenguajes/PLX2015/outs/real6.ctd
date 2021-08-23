@@ -1,0 +1,21 @@
+#DECLARACIÓN: x = 0
+	x = 0;
+#DECLARACIÓN: y = 0.0
+	y = 0.0;
+#VAR{x, 0}, EXP{INTEGER, 3}
+	x = 3;
+#ACCESO A LA VARIABLE VAR{x, 3}
+#VAR{y, 0.0}, EXP{FLOAT, 2.0}
+	y = 2.0;
+#ACCESO A LA VARIABLE VAR{y, 2.0}
+#CASTING A FLOAT: x
+	$t1 = (float) x;
+	$t0 = $t1 /r y;
+#CASTING A FLOAT: $t0
+	$t2 = (float) $t0;
+#CASTING A INTEGER: $t2
+	$t3 = (int) $t2;
+#VAR{x, 3}, EXP{INTEGER, $t3}
+	x = $t3;
+#ACCESO A LA VARIABLE VAR{x, $t3}
+	print x;

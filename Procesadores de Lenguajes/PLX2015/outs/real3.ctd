@@ -1,0 +1,19 @@
+#DECLARACIÓN: ix = 0
+	ix = 0;
+	ix = 2;
+#ACCESO A LA VARIABLE VAR{ix, 2}
+#DECLARACIÓN: iy = 0
+	iy = 0;
+	iy = 3;
+#ACCESO A LA VARIABLE VAR{iy, 3}
+#DECLARACIÓN: fx = 0.0
+	fx = 0.0;
+	fx = (float) ix;
+#DECLARACIÓN: fy = 0.0
+	fy = 0.0;
+	fy = (float) iy;
+	$t0 = iy / ix;
+	$t1 = fx /r fy;
+	$t3 = (float) $t0;
+	$t2 = $t3 +r $t1;
+	print $t2;

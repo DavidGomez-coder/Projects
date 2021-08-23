@@ -1,0 +1,18 @@
+	$t0 = 2 * 5;
+	i = $t0;
+	$t1 = 10 / 10;
+$L0:
+	if ($t1 < i) goto $L3;
+	goto $L2;
+$L1:
+	$t2 = i - 1;
+	i = $t2;
+java.lang.NumberFormatException: For input string: "$t0"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:569)
+	at java.lang.Integer.parseInt(Integer.java:615)
+	at ctdGenerator.ForLoop.increment_loop_var(ForLoop.java:42)
+	at CUP$parser$actions.CUP$parser$do_action(parser.java:512)
+	at parser.do_action(parser.java:348)
+	at java_cup.runtime.lr_parser.parse(lr_parser.java:584)
+	at PLXC.main(PLXC.java:23)

@@ -1,0 +1,10 @@
+#DECLARACIÓN: e = 0.0
+	e = 0.0;
+	e = 2.7172;
+#ACCESO A LA VARIABLE VAR{e, 2.7172}
+#DECLARACIÓN: pi = 0.0
+	pi = 0.0;
+	pi = 3.1416;
+#ACCESO A LA VARIABLE VAR{pi, 3.1416}
+	$t0 = e *r pi;
+	print $t0;

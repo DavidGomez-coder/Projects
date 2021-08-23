@@ -1,0 +1,20 @@
+	y = 1;
+#ACCESO A LA VARIABLE VAR{y, 1}
+	x = 1;
+#ACCESO A LA VARIABLE VAR{x, 1}
+	if (x == y) goto $L1;
+	goto $L2;
+$L1:
+	a_1 = 2;
+#ACCESO A LA VARIABLE VAR{a_1, 2}
+	goto $L0;
+$L2:
+$L0:
+#GET VAR -> null
+error; #variable no declarada
+halt;
+java.lang.NullPointerException
+	at CUP$parser$actions.CUP$parser$do_action(parser.java:1105)
+	at parser.do_action(parser.java:340)
+	at java_cup.runtime.lr_parser.parse(lr_parser.java:584)
+	at PLXC.main(PLXC.java:23)

@@ -1,0 +1,37 @@
+	y = 1;
+#ACCESO A LA VARIABLE VAR{y, 1}
+	x = 1;
+#ACCESO A LA VARIABLE VAR{x, 1}
+	if (x == y) goto $L1;
+	goto $L2;
+$L1:
+	$t0 = y + 2;
+	y = $t0;
+#ACCESO A LA VARIABLE VAR{y, $t0}
+	if (x < y) goto $L4;
+	goto $L5;
+$L4:
+	$t1 = x + y_2;
+	$t2 = $t1 + 3;
+	y_2 = $t2;
+#ACCESO A LA VARIABLE VAR{y_2, $t2}
+	x = $t2;
+#ACCESO A LA VARIABLE VAR{x, $t2}
+	$t3 = x + y_2;
+	print $t3;
+	goto $L3;
+$L5:
+$L3:
+	$t4 = x * y;
+	$t5 = $t4 + 4;
+	x = $t5;
+#ACCESO A LA VARIABLE VAR{x, $t5}
+	print x;
+	goto $L0;
+$L2:
+$L0:
+	$t6 = x * y;
+	$t7 = $t6 + 7;
+	y = $t7;
+#ACCESO A LA VARIABLE VAR{y, $t7}
+	print y;

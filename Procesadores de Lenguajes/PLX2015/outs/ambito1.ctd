@@ -1,0 +1,17 @@
+	y = 1;
+#ACCESO A LA VARIABLE VAR{y, 1}
+	x = 1;
+#ACCESO A LA VARIABLE VAR{x, 1}
+	if (x == y) goto $L1;
+	goto $L2;
+$L1:
+	a_1 = 2;
+#ACCESO A LA VARIABLE VAR{a_1, 2}
+	x = 3;
+#ACCESO A LA VARIABLE VAR{x, 3}
+	$t0 = a_1 + x;
+	print $t0;
+	goto $L0;
+$L2:
+$L0:
+	print x;
