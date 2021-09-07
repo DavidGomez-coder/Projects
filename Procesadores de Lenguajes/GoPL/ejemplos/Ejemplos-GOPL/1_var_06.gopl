@@ -1,0 +1,8 @@
+package main
+
+import "fmt"
+
+func main() {
+	var 6a int;
+	fmt.Print(6a);
+}

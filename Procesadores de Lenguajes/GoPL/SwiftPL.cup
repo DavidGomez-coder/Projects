@@ -1,0 +1,443 @@
+import java_cup.runtime.*;
+import java.util.*;
+import instructions.*;
+
+action code {:
+	
+:};
+
+parser code {:
+
+	/* Método para reportar errores durante la compilación */
+	public void report_error(String msg, Object info) {
+  		System.out.println(msg);
+  		System.exit(0);
+	}
+
+	/* Método para reportar errores durante el análisis léxico*/
+	public void syntax_error(Symbol cur_token){
+		report_error("error léxico", null);
+		System.exit(0);
+	}
+	
+	/*	Árbol AST generado con todas las instrucciones del parser */
+	List<Instruction> AST;
+
+	public List<Instruction> getAST(){
+		return AST;
+	}
+
+
+:};
+
+//************************************************************************
+//		TERMINALS
+//************************************************************************
+terminal PLUS, MINUS, MUL, DIV, UMINUS;
+terminal NOT, AND, OR;
+terminal LT, LE, GT, GE, EQ, NE;
+terminal PRINT;
+terminal OB, CB, COMMA, OCC, CCC, OK, CK;
+terminal String INTEGER, DOUBLE;
+terminal TRUE, FALSE;
+
+terminal EOL, SK_LINE, PYC;
+
+terminal VAR, LET;
+terminal String VAR_NAME;
+terminal ASIG, ASIG2;
+
+terminal WHILE, IF, ELSE;
+terminal FOR, IN;
+
+terminal DOUBLE_TYPE, INTEGER_TYPE, BOOLEAN_TYPE;
+terminal DECL_TYPE, FOR_SEQ, FOR_NO_VAR;
+
+//************************************************************************
+//		NON TERMINALS
+//************************************************************************
+non terminal in;
+non terminal List<Instruction> instructions;
+non terminal Instruction instruction;
+
+non terminal eol;
+non terminal Operation expression;
+non terminal Operation numerical_operation;
+non terminal Operation boolean_operation;
+non terminal Operation value;
+non terminal String unitNumOperator;
+non terminal Array array;
+non terminal WhileIns while_instruction;
+non terminal IfIns if_instruction;
+non terminal ForInIns for_instruction;
+
+non terminal VarDeclaration var_declaration;
+non terminal VarAssignment  var_assignment;
+non terminal List<Instruction> else_part;
+
+non terminal List list_values;
+non terminal String type;
+non terminal List<String> vars;
+non terminal asig2;
+
+non terminal Operation arrayIndex;
+non terminal Operation sequence;
+non terminal String for_var_name;
+
+//************************************************************************
+//		PRECEDENCES
+//************************************************************************
+precedence left ASIG, ASIG2;
+precedence left OR;
+precedence left AND;
+precedence left EQ, NE;
+precedence left LT, LE, GT, GE;
+precedence left PLUS, MINUS;
+precedence left MUL, DIV;
+precedence left UMINUS, NOT;
+
+precedence left VAR_NAME;
+
+//************************************************************************
+//		GRAMÁTICA
+//************************************************************************
+in ::=
+	instructions:i
+	{:
+		parser.AST = i;
+	:}
+	;
+
+instructions ::=
+	instruction:i
+	{:
+		RESULT=new ArrayList<>(); RESULT.add(i);
+	:}
+	|
+	instructions:is instruction:i
+	{:	
+		RESULT = is; RESULT.add(i);	
+	:}
+	;
+
+instruction ::=
+	SK_LINE
+	|
+	expression eol//en caso de encontrar una expresión aislada, no hacemos nada
+	|
+	PRINT OB expression:e CB eol
+	{:	RESULT = new Print(e);	:}
+	|
+	var_declaration:v eol
+	{:	RESULT = v;	:}
+	|
+	var_assignment:v eol
+	{:	RESULT = v; :}
+	|
+	while_instruction:w eol
+	{: RESULT = w; :}
+	|
+	if_instruction:i eol
+	{: RESULT = i; :}
+	|
+	for_instruction:f eol
+	{: RESULT = f; :}
+	;
+
+
+
+eol ::=
+	EOL
+	|
+	PYC
+	|
+	SK_LINE
+	|
+	error
+	{: parser.report_error("error (fin de línea inválido)", null); :}
+	;
+
+//************************************************************************
+//		EXPRESIONES 
+//************************************************************************
+
+expression ::=
+	numerical_operation:n
+	{:	RESULT = n;	:}
+	|
+	boolean_operation:b
+	{:	RESULT = b;	:}
+	|
+	value:v
+	{: RESULT = v; :}
+	;
+
+numerical_operation ::=
+	OB numerical_operation:n CB
+	{:	RESULT = n;		:}
+	|
+	expression:n1 PLUS expression:n2
+	{: RESULT = new Operation(n1, Global.PLUS, n2);	:}
+	|
+	expression:n1 MINUS expression:n2
+	{: RESULT = new Operation(n1, Global.MINUS, n2);	:}
+	|
+	expression:n1 MUL expression:n2
+	{: RESULT = new Operation(n1, Global.MUL, n2);	:}
+	|
+	expression:n1 DIV expression:n2
+	{: RESULT = new Operation(n1, Global.DIV, n2); :}
+	|
+	unitNumOperator:u expression:n
+	{: RESULT = new Operation(u, n); :}%prec UMINUS
+	|
+	expression:n1 LT expression:n2
+	{: RESULT = new Operation(n1, Global.LT, n2); :}
+	|
+	expression:n1 LE expression:n2
+	{: RESULT = new Operation(n1, Global.LE, n2);	:}
+	|
+	expression:n1 GT expression:n2
+	{: RESULT = new Operation(n1, Global.GT, n2);	:}
+	|
+	expression:n1 GE expression:n2
+	{: RESULT = new Operation(n1, Global.GE, n2);	:}
+	|
+	expression:n1 EQ expression:n2
+	{: RESULT = new Operation(n1, Global.EQ, n2);	:}
+	|
+	expression:n1 NE expression:n2
+	{: RESULT = new Operation(n1, Global.NE, n2);	:}
+	|
+	error
+	{:	parser.syntax_error(null);	:}
+	;
+
+boolean_operation ::=
+	OB boolean_operation:b CB
+	{: RESULT = b;	:}
+	|
+	expression:b1 AND expression:b2
+	{: RESULT = new Operation(b1, Global.AND, b2);	:}
+	|
+	expression:b1 OR expression:b2
+	{: RESULT = new Operation(b1, Global.OR, b2);	:}
+	|
+	NOT expression:b
+	{:	RESULT = new Operation (Global.NOT, b); :}
+	;
+
+unitNumOperator ::=
+	MINUS   {:	RESULT = Global.MINUS;	:}
+	|
+	MUL	 	{: parser.report_error("error (* no es operación unaria)", null);	:}
+	|
+	DIV		{: parser.report_error("error (/ no es operación unaria)", null);	:}
+	;
+
+value ::=
+	DOUBLE:d
+	{:	RESULT = new Operation(Double.parseDouble(d));	:}
+	|
+	INTEGER:i
+	{:	RESULT = new Operation(Integer.parseInt(i));    :}
+	|
+	TRUE
+	{: RESULT = new Operation(new Boolean(true));	:}
+	|
+	FALSE
+	{:	RESULT = new Operation(new Boolean(false));	:}
+	|
+	VAR_NAME:v OK arrayIndex:i CK
+	{:	RESULT = new Operation(v, i, Global.VARIABLE); :}
+	|
+	VAR_NAME:v
+	{:	RESULT = new Operation(v, Global.VARIABLE);	:}
+	|
+	array:a
+	{:	RESULT = new Operation(a); :}
+	;
+
+arrayIndex ::=
+	INTEGER:i
+	{:	RESULT = new Operation(Integer.parseInt(i));    :}
+	|
+	VAR_NAME:v
+	{:	RESULT = new Operation(v, Global.VARIABLE);	:}
+	;
+
+
+//************************************************************************
+//		DECLARACIÓN DE ARRAYS
+//************************************************************************
+array ::=
+	OK CK
+	{:	
+		List l = new ArrayList<>();
+		RESULT = new Array(l);
+	:}
+	|
+	OK list_values:lv CK
+	{:
+		RESULT = new Array(lv);
+	:}
+	;
+
+list_values ::=
+	value:v
+	{:	
+		List l = new ArrayList<>();
+		l.add(v);
+		RESULT = l;
+	:}
+	|
+	value:v COMMA list_values:lv
+	{:
+		List l = new ArrayList<>();
+		l.add(v);
+		l.addAll(lv);
+		RESULT = l;
+	:}
+	;
+
+//************************************************************************
+//		DECLARACIÓN Y ASIGNACIÓN DE VARIABLES
+//************************************************************************
+
+var_declaration ::=
+	VAR VAR_NAME:n ASIG expression:e
+	{:	RESULT = new VarDeclaration(n, Global.VARIA, e);   	:}
+	|
+	VAR vars:v DECL_TYPE type:t ASIG expression:e
+	{:											
+		String n = v.get(0);
+		RESULT = new VarDeclaration(n, Global.VARIA, e, t);
+	:}
+	|
+	VAR vars:v DECL_TYPE type:t
+	{:
+		RESULT = new VarDeclaration(v, Global.VARIA, t);
+	:}
+	|
+	LET VAR_NAME:n ASIG expression:e
+	{:	RESULT = new VarDeclaration(n, Global.CONST, e);	:}
+	|
+	LET vars:v DECL_TYPE type:t ASIG expression:e
+	{:	String n = v.get(0);
+		RESULT = new VarDeclaration(n, Global.CONST, e, t);    
+	:}
+	|
+	LET vars:v DECL_TYPE type:t
+	{:	RESULT = new VarDeclaration(v, Global.CONST, t);	:}
+	;
+
+var_assignment ::=
+	VAR_NAME:n asig2 expression:e
+	{:	RESULT = new VarAssignment(n, e);	:}
+	|
+	VAR_NAME:n OK arrayIndex:i CK asig2 expression:e
+	{:	RESULT = new VarAssignment(n,i,e);	:}
+	;
+
+
+type ::=
+	DOUBLE_TYPE
+	{:	RESULT = Global.DOUBLE; :}
+	|
+	INTEGER_TYPE
+	{:	RESULT = Global.INTEGER; :}
+	|
+	BOOLEAN_TYPE
+	{:	RESULT = Global.BOOL; :}
+	;
+
+vars ::=
+	VAR_NAME:n
+	{:	
+		List<String> l = new ArrayList<>();
+		l.add(n);
+		RESULT = l;
+	:}
+	|
+	VAR_NAME:n COMMA vars:v
+	{:
+		List<String> l = new ArrayList<>();
+		l.add(n);
+		l.addAll(v);
+		RESULT = l;
+	:}
+	;
+
+asig2 ::=
+	ASIG
+	|
+	ASIG2
+	;
+
+//************************************************************************
+//		BUCLE WHILE 
+//************************************************************************
+while_instruction ::=
+	WHILE expression:b OCC instructions:i CCC
+	{:	RESULT = new WhileIns(b,i); :}
+	;
+
+//************************************************************************
+//		BUCLE FOR 
+//************************************************************************
+for_instruction::=
+	FOR for_var_name:index IN sequence:a OCC instructions:ins CCC
+	{:	RESULT = new ForInIns(index, a, ins);	:}
+	|
+	FOR for_var_name:index IN sequence:i1 FOR_SEQ sequence:i2 OCC instructions:ins CCC
+	{:	RESULT = new ForInIns(index, i1, i2, ins);	:}
+
+	;
+
+
+for_var_name ::=
+	VAR_NAME:n
+	{:	RESULT = n; :}
+	|
+	FOR_NO_VAR
+	{:	RESULT = Global.NO_FOR_VARIABLE_DECLARE; :}
+	;
+
+
+sequence ::=
+	array:a
+	{:	RESULT = new Operation(a); :}
+	|
+	VAR_NAME:n
+	{:	RESULT = new Operation(n, Global.VARIABLE);	:}
+	|
+	INTEGER:i
+	{:	RESULT = new Operation(Integer.parseInt(i));	:}
+	;
+
+//************************************************************************
+//		SENTENCIA IF
+//************************************************************************
+if_instruction ::=
+	IF expression:b OCC instructions:i CCC else_part:e
+	{:	 RESULT = new IfIns(b, i, e);	:}
+	;
+
+else_part ::=
+	ELSE IF expression:b OCC instructions:i CCC else_part:e
+	{:	
+		List<Instruction> l = new ArrayList<>();
+		IfIns ins = new IfIns(b, i, e);
+		l.add(ins);
+		RESULT = l;
+	:}
+	|
+	ELSE OCC instructions:i CCC
+	{:	
+		List<Instruction> l = new ArrayList<>();
+		IfIns ins = new IfIns(i);
+		l.add(ins);
+		RESULT = l;
+	:}
+	|
+	;

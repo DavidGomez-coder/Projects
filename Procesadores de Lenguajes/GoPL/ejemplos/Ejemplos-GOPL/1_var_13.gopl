@@ -1,0 +1,8 @@
+package main
+
+import "fmt"
+
+func main() {
+	var a, txt, ok = 2, "hola", true;
+	fmt.Print(a, txt, ok);
+}

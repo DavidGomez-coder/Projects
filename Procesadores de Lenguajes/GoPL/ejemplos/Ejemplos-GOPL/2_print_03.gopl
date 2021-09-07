@@ -1,0 +1,10 @@
+package main
+
+import "fmt"
+
+func main() {
+	var i, j int = 1, 2;
+	fmt.Println(1+16/5 , 3<4);
+	fmt.Println((1+16)/5 , 3==4);
+	fmt.Println((i+j*j*j*j)/5 , i+j==j*j);
+}

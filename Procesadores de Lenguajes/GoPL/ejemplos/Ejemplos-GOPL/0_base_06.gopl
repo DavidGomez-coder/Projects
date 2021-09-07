@@ -1,0 +1,9 @@
+package main
+
+import "fmt"
+
+func main() {
+	/* FUNCION PRINCIPAL */
+	fmt.Print("HOLA "); */
+	fmt.Print("MUNDO");
+}

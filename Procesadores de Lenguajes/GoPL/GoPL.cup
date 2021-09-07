@@ -1,0 +1,383 @@
+import java_cup.runtime.*;
+import java.util.*;
+import instructions.*;
+
+action code {:
+	List<Var> constants = new ArrayList<>();
+:};
+
+parser code {:
+
+	/* Método para reportar errores durante la compilación */
+	public void report_error(String msg, Object info) {
+  		System.out.println(msg);
+  		System.exit(0);
+	}
+
+	/* Método para reportar errores durante el análisis léxico*/
+	public void syntax_error(Symbol cur_token){
+		report_error("ERROR", null);
+		System.exit(0);
+	}
+	
+	/*	Árbol AST generado con todas las instrucciones del parser */
+	List<Instruction> AST;
+    List<Instruction> mainTree;
+
+	public List<Instruction> getAST(){
+		return AST;
+	}
+
+
+:};
+
+//************************************************************************
+//		TERMINALES
+//************************************************************************
+terminal PLUS, MINUS, MUL, DIV, UMINUS, INC, DEC;
+terminal NOT, OR, AND;
+terminal LT, LE, GT, GE, EQ, NE;
+
+terminal COMMA, PYC;
+terminal OB, CB, OCC, CCC, OK, CK;
+
+terminal ASIG, ASIG2;
+
+terminal String  VAR_NAME, INTEGER, DOUBLE;
+terminal EOL, SK_LINE;
+
+terminal PACKAGE, MAIN, IMPORT, FMT_PACKAGE;
+terminal FUNC;
+terminal FMT_PRINT, FMT_PRINTLN, FMT_PRINTF;
+
+terminal INT_TYPE, BOOL_TYPE, STRING_TYPE;
+terminal VAR, CONST;
+
+terminal String  STRING;
+terminal TRUE, FALSE;
+terminal FOR;
+
+//************************************************************************
+//		NO TERMINALES
+//************************************************************************
+non terminal bodyIns, bodyIn;
+
+non terminal in;
+non terminal List<Instruction> instructions;
+non terminal Instruction instruction;
+
+non terminal eol;
+non terminal Operation expression;
+non terminal Operation numerical_operation;
+non terminal Operation boolean_operation;
+non terminal Operation value;
+non terminal String unitNumOperator;
+
+non terminal VarDeclaration var_declaration;
+non terminal VarAssignment var_assignment;
+
+non terminal asig2;
+
+non terminal String vars_type;
+non terminal List var_list;
+non terminal List expr_list;
+non terminal List<Var> print_var_list;
+
+non terminal List asig_part, asig2_part;
+non terminal List values_typedef_list;
+
+non terminal VarDeclaration const_declaration;
+non terminal List<Operation> list_expression;
+
+non terminal ForIns for_instruction;
+
+//************************************************************************
+//		PRECEDENCIAS
+//************************************************************************
+precedence right ASIG, ASIG2;
+precedence left OR;
+precedence left AND;
+precedence left EQ, NE;
+precedence left LT, LE, GT, GE;
+precedence left PLUS, MINUS;
+precedence left MUL, DIV;
+precedence left UMINUS, NOT;
+precedence right DEC, INC;
+
+precedence nonassoc VAR_NAME;
+precedence left COMMA;
+
+//************************************************************************
+//		GRAMÁTICA
+//************************************************************************
+
+
+/*  
+    EL valor de i devuelve todo lo declarado anterior a la declaración de la función main
+    (ejemplo: constantes)
+    Incluimos todas las sentencias de la función main guardadas en la lista parser.mainTree
+*/
+in ::=
+    instructions:i
+    {:   
+        parser.AST = i;
+        parser.AST.addAll(parser.mainTree);
+    :}
+    ;
+
+instructions ::=
+    instruction:i
+    {:
+        RESULT = new ArrayList<>();
+        RESULT.add(i);
+    :}
+    |
+    instructions:is instruction:i
+    {:
+        RESULT = is;
+        RESULT.add(i);
+    :}
+    ;
+
+instruction ::=
+    SK_LINE
+    |
+    FMT_PRINT OB list_expression:e CB eol
+    {: RESULT = new Print(e); :}
+    |
+    FMT_PRINTLN OB list_expression:e CB eol
+    {: RESULT = new Println(e); :}
+    |
+    FMT_PRINTF OB STRING:s COMMA list_expression:e CB eol
+    {: RESULT = new Printf(s, e); :}
+    |
+    expression eol
+    |
+    var_declaration:v eol
+    {: RESULT = v; :}
+    |
+    var_assignment:v eol
+    {: RESULT = v; :}
+    |
+    PACKAGE MAIN
+    |
+    IMPORT FMT_PACKAGE
+    |
+    FUNC MAIN OB CB OCC instructions:ins CCC
+    {: 
+        parser.mainTree = new ArrayList<>();
+        List<Instruction> instructions = (List<Instruction>)ins;
+        for (int i=0;i<instructions.size();i++){
+            parser.mainTree.add(instructions.get(i));
+        }
+    :}
+    |
+    const_declaration:cd eol
+    {: RESULT = cd; :}
+    |
+    for_instruction:f eol
+    {: RESULT = f; :}
+    ;
+
+
+eol ::=
+    EOL
+    |
+    PYC
+    |
+    ;
+
+//************************************************************************
+//		EXPRESIONES
+expression ::=
+    value:v
+    {:  RESULT = v; :}
+    |
+    OB expression:e CB
+    {:  RESULT = e; :}
+    |
+    numerical_operation:n
+    {:  RESULT = n; :}
+    ;
+
+
+numerical_operation ::=
+    expression:n1 PLUS expression:n2
+	{: RESULT = new Operation(n1, Global.PLUS, n2);	:}
+	|
+	expression:n1 MINUS expression:n2
+	{: RESULT = new Operation(n1, Global.MINUS, n2);	:}
+	|
+	expression:n1 MUL expression:n2
+	{: RESULT = new Operation(n1, Global.MUL, n2);	:}
+	|
+	expression:n1 DIV expression:n2
+	{: RESULT = new Operation(n1, Global.DIV, n2); :}
+	|
+	unitNumOperator:u expression:n
+	{: RESULT = new Operation(u, n); :}%prec UMINUS
+	|
+	expression:n1 LT expression:n2
+	{: RESULT = new Operation(n1, Global.LT, n2); :}
+	|
+	expression:n1 LE expression:n2
+	{: RESULT = new Operation(n1, Global.LE, n2);	:}
+	|
+	expression:n1 GT expression:n2
+	{: RESULT = new Operation(n1, Global.GT, n2);	:}
+	|
+	expression:n1 GE expression:n2
+	{: RESULT = new Operation(n1, Global.GE, n2);	:}
+	|
+	expression:n1 EQ expression:n2
+	{: RESULT = new Operation(n1, Global.EQ, n2);	:}
+	|
+	expression:n1 NE expression:n2
+	{: RESULT = new Operation(n1, Global.NE, n2);	:}
+    ;
+
+unitNumOperator ::=
+	MINUS   {:	RESULT = Global.MINUS;	:}
+	|
+	MUL	 	{: parser.report_error("ERROR", null);	:}
+	|
+	DIV		{: parser.report_error("ERROR", null);	:}
+	;
+
+value ::=
+    STRING:s
+    {: RESULT = new Operation (s); :}
+    |
+    INTEGER:i
+    {: RESULT = new Operation(Integer.parseInt(i)); :}
+    |
+    FALSE
+    {:   RESULT = new Operation(new Boolean(false)); :}
+    |
+    TRUE
+    {:   RESULT = new Operation(new Boolean(true)); :}
+    |
+    var_list:n
+    {:
+        if (n.size()==1){
+            RESULT = new Operation((String)n.get(0), Global.VARIABLE);
+        }else{
+            RESULT = new Operation(n);
+        }
+    :}
+    ;
+
+list_expression ::=
+    expression:e
+    {:
+        List<Operation> l = new ArrayList<>();
+        l.add(e);
+        RESULT = l;
+    :}
+    |
+    list_expression:le COMMA expression:e
+    {:
+        RESULT = le;
+        RESULT.add(e);
+    :}
+    ;
+
+//************************************************************************
+//		DECLARACIÓN DE VARIABLES
+//************************************************************************
+var_declaration ::=
+    VAR var_list:l vars_type:t asig_part:a
+    {:   
+        RESULT = new VarDeclaration(l, Global.VARIA, t, a);
+    :}
+    |
+    VAR var_list:l asig_part:a
+    {:
+        RESULT = new VarDeclaration (l, Global.VARIA, a);
+    :}
+    |
+    var_list:l asig2_part:a
+    {:
+        RESULT = new VarDeclaration(l, Global.VARIA, a);
+    :}
+    ;
+
+const_declaration ::=
+    CONST var_list:l asig_part:a
+    {:  
+        RESULT = new VarDeclaration(l, Global.CONST, a);
+    :}
+    ;
+
+
+vars_type ::=
+    INT_TYPE
+    {:  RESULT = Global.INTEGER; :}
+    |
+    BOOL_TYPE
+    {:  RESULT = Global.BOOL;  :}
+    |
+    STRING_TYPE
+    {:  RESULT = Global.STRING; :}
+    ;
+
+//************************************************************************
+//		ASIGNACIÓN DE VARIABLES
+//************************************************************************
+var_assignment ::=
+    VAR_NAME:n ASIG expression:e
+    {:  RESULT = new VarAssignment(n,e);  :}
+    ;
+
+//************************************************************************
+//		AUXILIAR DE ASIGNACIÓN Y DECLARACIÓN DE VARIABLES
+//************************************************************************
+var_list ::=
+    VAR_NAME:n
+    {:
+        List l = new ArrayList<>();
+        l.add(n);
+        RESULT = l;
+    :}
+    |
+    var_list:ls COMMA VAR_NAME:n
+    {:
+        RESULT = ls;
+        RESULT.add(n);
+    :}
+    ;
+
+asig_part ::=
+    ASIG list_expression:v 
+    {:  RESULT = v; :}
+    |
+    {:  RESULT = new ArrayList<>(); :}
+    ;
+
+asig2_part ::=
+    ASIG2 list_expression:v
+    {: RESULT = v; :}
+    ;
+
+//************************************************************************
+//		BUCLES FOR
+//************************************************************************
+for_instruction ::=
+    FOR VAR_NAME:n ASIG2 expression:e1 PYC expression:e2 PYC VAR_NAME:n2 INC OCC
+    instructions:ins CCC
+    {:
+        RESULT = new ForIns(n, e1, e2, n2, ins);
+    :}
+    |
+    FOR PYC expression:e PYC OCC instructions:ins CCC
+    {:
+        RESULT = new ForIns(null, null, e, null, ins);
+    :}
+    |
+    FOR expression:e OCC instructions:ins CCC
+    {:
+        RESULT = new ForIns(null, null, e, null, ins);
+    :}
+    ;
+
+

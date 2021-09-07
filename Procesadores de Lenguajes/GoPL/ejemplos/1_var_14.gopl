@@ -1,0 +1,8 @@
+package main
+
+import "fmt"
+
+func main() {
+	a, txt, ok := 4, "GOPL", false;
+	fmt.Print(a, txt, ok);
+}

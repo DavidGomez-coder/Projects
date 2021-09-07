@@ -1,0 +1,7 @@
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Printf("valor es %v y el tipo %T", 4, true);
+}
