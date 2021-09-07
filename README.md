@@ -37,6 +37,7 @@
   2. Intérpretes <br>
     - Intérprete AnsysPL <br>
     - Intérprete SwiftPL<br>
+    - Intérprete GoPL <br>
   3. Compiladores <br>
     - PLX2014 <br>
     - PLX2015 <br>
