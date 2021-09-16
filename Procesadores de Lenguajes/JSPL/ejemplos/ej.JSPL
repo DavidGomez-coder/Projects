@@ -1,0 +1,111 @@
+/**
+* Esto es un programa de ejemplo en el que se usan todas
+* las sentencias del lenguaje para comprobar su funcionamiento
+*/
+
+//funcion para invertir un array
+func inverse_array (array){
+    var inverse = array
+    if (length(array) % 2 == 0){
+        for (i in 0:length(array)/2-1){
+            var aux = inverse[i]
+            inverse[i] = inverse[length(array)-i-1]
+            inverse[length(array)-i-1] = aux
+        }
+    }else{
+        for (var i = 0; i<length(array)/2; i++){
+            var aux = inverse[i]
+            inverse[i] = inverse[length(array)-i-1]
+            inverse[length(array)-i-1] = aux
+        }
+    }
+    return inverse
+}
+
+//operaciones con arrays
+func array_expr (array_1, array_2, op){
+    var res = array_1
+    if (length(array_1) == length(array_2)){
+        for (var i = 0; i<length(array_1); i++){
+            if (op == '+'){
+                res[i] = array_1[i] + array_2[i]
+            }else if (op == '-'){
+                res[i] = array_1[i] - array_2[i]
+            }else if (op == '*'){
+                res[i] = array_1[i] * array_2[i]
+            }else if (op == '/'){
+                res[i] = array_1[i] / array_2[i]
+            }
+            
+        }
+
+        return res
+    }//no hacemos nada
+
+}
+
+//funcion para la prueba de inverse_array
+func prueba_1 (){
+    var array1 = [1,2,3,4,5]
+    console.log(inverse_array(array1))
+
+    var array2 = [1,2,3,4]
+    console.log(inverse_array(array2))
+}
+
+
+func prueba_2 (){
+    var array_1 = [1,2,3]
+    var array_2 = [1,2]
+    var sum_err = array_expr(array_1, array_2, '+')
+    console.log('Suma no valida: ' + sum_err)
+}
+
+func prueba_3(){
+    var array_1 = [1,2,3]
+    var array_2 = [4,8,12]
+    var sum_err = array_expr(array_1, array_2, '-')
+    console.log('Resta valida: ' + sum_err)
+}
+
+func pruebas(){
+    prueba_1()
+    prueba_2()
+    prueba_3()
+}
+
+
+//ejecucion de las pruebas de funciones
+/**
+* El nombre de los parametros de las funciones puede ser cualquiera
+* No importa que haya una variable con el mismo nombre declarado fuera de la funcion (prueba4)
+*/
+console.log('Ejecucion de las pruebas de funciones')
+console.log('-------------------------------------')
+pruebas()
+
+
+//prueba de los parametros de las funciones
+console.log('Pruebas de los parametros de las funciones')
+console.log('------------------------------------------')
+var valor_1 = 10
+
+func incrementa(valor_1){
+    console.log('Valor a incrementar: '  + valor_1)
+    return valor_1 + 1
+}
+
+var valor_inc = incrementa(valor_1-10)
+if (valor_inc == 1){
+    console.log('OK')
+}else{
+    console.log('Err en el paso de parametros')
+}
+
+console.log('--------------------------')
+console.log('Pruebas bucle for "infinito"') //esta prueba se detiene cuando la variable count llega a 10000
+console.log('--------------------------')
+var count = 0
+for (;count<10000;){
+    count++
+}
