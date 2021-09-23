@@ -1,5 +1,7 @@
 const app = require('./config/server.js');
 const path = require('path');
+var ip = require("ip");
+
 
 //global path to files directory
 //global.FILES_PATH = path.join(__dirname, "..",".","files");
@@ -28,4 +30,5 @@ app.use('/styles',express.static(__dirname + '/app/views/public/styles'));
 app.use('/scripts',express.static(__dirname + '/app/views/public/scripts'));
 
 //starting server
+console.dir ( ip.address() );
 app.listen(process.env.PORT || 3000, () => console.log("Running"));
