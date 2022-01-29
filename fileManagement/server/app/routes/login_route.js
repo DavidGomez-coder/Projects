@@ -12,7 +12,9 @@ module.exports = app => {
         hashCode = function(s){
             return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
         }
-    
+        const filest = dirTree(FILES_PATH);
+        res.render("index", {filest});
+        /*
         if (-1770856881 == hashCode(req.query.passParam)){
             var count = 0;
             const filest = dirTree(FILES_PATH);
@@ -24,6 +26,7 @@ module.exports = app => {
             await res.render("login",{});
             console.log("Fail login: " + req.query.userParam + ", " + req.query.passParam);
         }
+        */
     });
 }
 

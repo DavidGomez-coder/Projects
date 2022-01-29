@@ -5,7 +5,7 @@ var ip = require("ip");
 
 //global path to files directory
 //global.FILES_PATH = path.join(__dirname, "..",".","files");
-global.FILES_PATH = "G:\\";
+global.FILES_PATH = "E:\\";
 
 //requirements routes
 require('./app/routes/main_route.js')(app);
