@@ -29,9 +29,8 @@
     - Para ejecutar este proyecto y acceder desde cualquier red, utilizar localTunnel (generador de un enlace permanente aleatorio hasta que se cierre el servidor <br>
       `$ nmp install -g localtunnel` <br>
       `$ lt --port "numPuerto" `
-   - La contraseña y el nombre de usuario deben de cambiarse desde el propio código (por seguridad, para evitar intrusos)
+      
 ### Procesadores de Lenguajes ☠️
-  Estos son ejemplos y exámenes de la asignatura Procesadores de Lenguajes
   1. Prácticas
     - Prácticas realizadas de JFlex y Cup durante el curso
   2. Intérpretes <br>
